@@ -289,6 +289,8 @@ public class JsonRegistrationQueueInfoHandler implements QueueInfoHandler {
 				PatientIdentifier identifier = iterator.next();
 				identifier.setLocation(location);
 			}
+
+
 		}
 	}
 	
@@ -546,6 +548,7 @@ public class JsonRegistrationQueueInfoHandler implements QueueInfoHandler {
 							Obs o = new Obs();
 							o.setConcept(cs.getConcept(1542));
 							o.setDateCreated(queueData.getDateCreated());
+							o.setCreator(queueData.getCreator());
 							o.setCreator(queueData.getCreator());
 							o.setObsDatetime(queueData.getDateCreated());
 							o.setPerson(p);

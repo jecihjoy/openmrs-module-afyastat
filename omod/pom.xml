@@ -18,17 +18,6 @@
             <artifactId>afyastat-api</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
-		<!--<dependency>
-			<groupId>org.openmrs.web</groupId>
-			<artifactId>openmrs-web</artifactId>
-            <scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.openmrs.web</groupId>
-			<artifactId>openmrs-web</artifactId>
-			<scope>provided</scope>
-			<classifier>tests</classifier>
-		</dependency>-->
 
 
 
@@ -39,17 +28,6 @@
 		</dependency>
 
 
-		<!-- End OpenMRS modules -->
-		<dependency>
-			<groupId>org.openmrs.module</groupId>
-			<artifactId>uiframework-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.openmrs.module</groupId>
-			<artifactId>kenyaui-api</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>metadatadeploy-api</artifactId>
@@ -57,18 +35,9 @@
 
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
-			<artifactId>metadatasharing-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.openmrs.module</groupId>
 			<artifactId>idgen-api</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.openmrs.module</groupId>
-			<artifactId>kenyacore-api</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>webservices.rest-omod-1.8</artifactId>

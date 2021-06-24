@@ -9,6 +9,7 @@ import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 
+import org.openmrs.EncounterType;
 import org.openmrs.Person;
 import org.openmrs.Patient;
 import org.openmrs.Provider;
@@ -39,8 +40,6 @@ import org.openmrs.module.afyastat.api.service.MedicQueData;
 import org.openmrs.module.afyastat.metadata.AfyaStatMetadata;
 import org.openmrs.module.afyastat.model.AfyaDataSource;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
-import org.openmrs.module.kenyaemr.metadata.HivMetadata;
-import org.openmrs.module.kenyaemr.util.EmrUtils;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 
 import java.io.IOException;
@@ -673,7 +672,7 @@ public class MedicDataExchange {
 		Provider unknownProvider = Context.getProviderService().getAllProviders().get(0);
 		User superUser = Context.getUserService().getUser(1);
 		if (user != null) {
-			Provider s = EmrUtils.getProvider(user);
+			Provider s = getProvider(user);
 			// check if the user is a provider
 			if (s != null) {
 				providerIdentifier = s.getIdentifier();
@@ -681,7 +680,7 @@ public class MedicDataExchange {
 				providerIdentifier = unknownProvider.getIdentifier();
 			}
 		} else {
-			Provider p = EmrUtils.getProvider(superUser);
+			Provider p = getProvider(superUser);
 			if (p != null) {
 				providerIdentifier = p.getIdentifier();
 				
@@ -866,7 +865,7 @@ public class MedicDataExchange {
 		String CHTUSERNAME_ATTRIBUTETYPE_UUID = "1aaead2d-0e88-40b2-abcd-6bc3d20fa43c";
 		Program prepProgram = MetadataUtils.existing(Program.class, PREP_PROGRAM_UUID);
 		Program kpProgram = MetadataUtils.existing(Program.class, KP_PROGRAM_UUID);
-		Program hivProgram = MetadataUtils.existing(Program.class, HivMetadata._Program.HIV);
+		Program hivProgram = MetadataUtils.existing(Program.class, "dfdc6d40-2f2f-463d-ba90-cc97350441a8");
 		ProgramWorkflowService programWorkflowService = Context.getProgramWorkflowService();
 		PersonAttributeType chtPersonAttributeType = personService
 		        .getPersonAttributeTypeByUuid(CHTUSERNAME_ATTRIBUTETYPE_UUID);
@@ -1015,7 +1014,7 @@ public class MedicDataExchange {
 		
 		String kpClinicalEnrolmentEncounterTypeUuid = "c7f47a56-207b-11e9-ab14-d663bd873d93";
 		String kpClinicalEnrolmentFormUuid = "c7f47cea-207b-11e9-ab14-d663bd873d93";
-		Encounter lastClinicalEnrolmentEncForPeers = EmrUtils.lastEncounter(patient,
+		Encounter lastClinicalEnrolmentEncForPeers = getLastEncounter(patient,
 		    encounterService.getEncounterTypeByUuid(kpClinicalEnrolmentEncounterTypeUuid),
 		    formService.getFormByUuid(kpClinicalEnrolmentFormUuid));
 		
@@ -1542,5 +1541,21 @@ public class MedicDataExchange {
 	public String getPersonAttributeByType(Patient patient, PersonAttributeType phoneNumberAttrType) {
 		return patient.getAttribute(phoneNumberAttrType) != null ? patient.getAttribute(phoneNumberAttrType).getValue() : "";
 	}
-	
+
+
+	/**
+	 * Kenya emr helper methods
+	 * @param user
+	 * @return
+	 */
+	public Provider getProvider(User user) {
+		Person person = user.getPerson();
+		Collection<Provider> providers = Context.getProviderService().getProvidersByPerson(person);
+		return providers.size() > 0 ? (Provider)	providers.iterator().next() : null;
+	}
+
+	public Encounter getLastEncounter(Patient patient, EncounterType type, Form form) {
+		List<Encounter> encounters = Context.getEncounterService().getEncounters(patient, (Location)null, (Date)null, (Date)null, Collections.singleton(form), Collections.singleton(type), (Collection)null, (Collection)null, (Collection)null, false);
+		return encounters.size() > 0 ? (Encounter)encounters.get(encounters.size() - 1) : null;
+	}
 }
