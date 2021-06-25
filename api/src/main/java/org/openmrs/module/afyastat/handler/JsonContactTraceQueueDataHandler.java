@@ -168,7 +168,7 @@ public class JsonContactTraceQueueDataHandler implements QueueInfoHandler {
 		}
 		Integer contactId = null;
 		HTSService htsService = Context.getService(HTSService.class);
-		PatientContact patientContact = htsService.getPatientContactByUuid(uuid);
+		PatientContact patientContact = htsService.getPatientContactByID(10);
 		if (patientContact != null) {
 			contactId = patientContact.getId();
 		}

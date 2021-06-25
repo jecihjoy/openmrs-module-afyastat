@@ -41,9 +41,7 @@ import org.openmrs.module.afyastat.api.service.MedicQueData;
 import org.openmrs.module.afyastat.metadata.AfyaStatMetadata;
 import org.openmrs.module.afyastat.model.AfyaDataSource;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
-import org.openmrs.module.kenyaemr.metadata.HivMetadata;
 import org.openmrs.module.kenyaemr.util.EmrUtils;
-import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.hivtestingservices.api.PatientContact;
 import org.openmrs.module.hivtestingservices.api.HTSService;
 
@@ -993,9 +991,9 @@ public class MedicDataExchange {
 		String PREP_PROGRAM_UUID = "214cad1c-bb62-4d8e-b927-810a046daf62";
 		String KP_PROGRAM_UUID = "7447305a-18a7-11e9-ab14-d663bd873d93";
 		String CHTUSERNAME_ATTRIBUTETYPE_UUID = "1aaead2d-0e88-40b2-abcd-6bc3d20fa43c";
-		Program prepProgram = MetadataUtils.existing(Program.class, PREP_PROGRAM_UUID);
-		Program kpProgram = MetadataUtils.existing(Program.class, KP_PROGRAM_UUID);
-		Program hivProgram = MetadataUtils.existing(Program.class, HivMetadata._Program.HIV);
+//		Program prepProgram = MetadataUtils.existing(Program.class, PREP_PROGRAM_UUID);
+//		Program kpProgram = MetadataUtils.existing(Program.class, KP_PROGRAM_UUID);
+//		Program hivProgram = MetadataUtils.existing(Program.class, HivMetadata._Program.HIV);
 		ProgramWorkflowService programWorkflowService = Context.getProgramWorkflowService();
 		PersonAttributeType chtPersonAttributeType = personService
 		        .getPersonAttributeTypeByUuid(CHTUSERNAME_ATTRIBUTETYPE_UUID);
@@ -1013,6 +1011,7 @@ public class MedicDataExchange {
 				ObjectNode peerEducator = factory.objectNode();
 				;
 
+				/**
 				List<PatientProgram> peerEducatorPrepPrograms = programWorkflowService.getPatientPrograms(Context
 				        .getPatientService().getPatient(ptId), prepProgram, null, null, null, null, true);
 
@@ -1021,7 +1020,7 @@ public class MedicDataExchange {
 				List<PatientProgram> kpPrograms = programWorkflowService.getPatientPrograms(Context.getPatientService()
 				        .getPatient(ptId), kpProgram, null, null, null, null, true);
 				String peerEducatorHivStatus = getClientHIVStatusCapturedOnKpClinicalEnrollment(ptId);
-				Patient patient = Context.getPatientService().getPatient(ptId);
+				Patient patient = Context.getPatientService().getPatient(ptId);*/
 				Person p = personService.getPerson(ptId);
 
 				String fullPeerEducatorName = "";
@@ -1043,6 +1042,7 @@ public class MedicDataExchange {
 					peerEducatorAssignee = p.getAttribute(chtPersonAttributeType).getValue();
 
 				}
+				/**
 				if (!peerEducatorAssignee.equalsIgnoreCase("")) {
 					peerEducator = buildPatientNode(patient, false, peerEducatorAssignee);
 
@@ -1122,7 +1122,7 @@ public class MedicDataExchange {
 
 					}
 
-				}
+				}*/
 
 				if (peer.size() > 0) {
 					peersNode.add(peer);
