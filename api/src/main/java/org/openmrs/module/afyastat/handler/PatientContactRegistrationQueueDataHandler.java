@@ -20,8 +20,6 @@ import org.openmrs.Patient;
 import org.openmrs.Person;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.hivtestingservices.api.HTSService;
-import org.openmrs.module.hivtestingservices.api.PatientContact;
 
 import org.openmrs.module.afyastat.api.service.RegistrationInfoService;
 import org.openmrs.module.afyastat.exception.StreamProcessorException;
@@ -42,7 +40,7 @@ public class PatientContactRegistrationQueueDataHandler implements QueueInfoHand
 	
 	private final Log log = LogFactory.getLog(PatientContactRegistrationQueueDataHandler.class);
 	
-	private PatientContact unsavedPatientContact;
+	//	private PatientContact unsavedPatientContact;
 	
 	private String payload;
 	
@@ -75,7 +73,7 @@ public class PatientContactRegistrationQueueDataHandler implements QueueInfoHand
 		queueProcessorException = new StreamProcessorException();
 		try {
 			payload = queueData.getPayload();
-			unsavedPatientContact = new PatientContact();
+			//			unsavedPatientContact = new PatientContact();
 			populateUnsavedPatientContactFromPayload();
 			return true;
 		}
@@ -125,39 +123,32 @@ public class PatientContactRegistrationQueueDataHandler implements QueueInfoHand
 		
 		Boolean voided = false;
 		
-		unsavedPatientContact.setFirstName(givenName);
-		unsavedPatientContact.setMiddleName(middleName);
-		unsavedPatientContact.setLastName(familyName);
-		unsavedPatientContact.setRelationType(relType);
-		unsavedPatientContact.setBirthDate(birthDate);
-		unsavedPatientContact.setSex(sex);
-		unsavedPatientContact.setPhoneContact(phoneNumber);
-		unsavedPatientContact.setMaritalStatus(maritalStatus);
-		unsavedPatientContact.setPhysicalAddress(physicalAddress);
-		unsavedPatientContact.setPatientRelatedTo(Context.getPatientService().getPatient(patientRelatedTo));
-		if (patient != null) {
-			unsavedPatientContact.setPatient(Context.getPatientService().getPatient(patient));
-		}
-		unsavedPatientContact.setUuid(uuid);
-		unsavedPatientContact.setVoided(voided);
+		/**
+		 * unsavedPatientContact.setFirstName(givenName);
+		 * unsavedPatientContact.setMiddleName(middleName);
+		 * unsavedPatientContact.setLastName(familyName);
+		 * unsavedPatientContact.setRelationType(relType);
+		 * unsavedPatientContact.setBirthDate(birthDate); unsavedPatientContact.setSex(sex);
+		 * unsavedPatientContact.setPhoneContact(phoneNumber);
+		 * unsavedPatientContact.setMaritalStatus(maritalStatus);
+		 * unsavedPatientContact.setPhysicalAddress(physicalAddress);
+		 * unsavedPatientContact.setPatientRelatedTo
+		 * (Context.getPatientService().getPatient(patientRelatedTo)); if (patient != null) {
+		 * unsavedPatientContact.setPatient(Context.getPatientService().getPatient(patient)); }
+		 * unsavedPatientContact.setUuid(uuid); unsavedPatientContact.setVoided(voided);
+		 */
 	}
 	
 	private void registerUnsavedPatientContact() {
-		HTSService htsService = Context.getService(HTSService.class);
-		RegistrationInfoService registrationDataService = Context.getService(RegistrationInfoService.class);
-		String temporaryUuid = getPatientContactUuidFromPayload();
-		RegistrationInfo registrationData = registrationDataService.getRegistrationDataByTemporaryUuid(temporaryUuid);
-		
-		if (registrationData != null) {
-			try {
-				htsService.savePatientContact(unsavedPatientContact);
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else {
-			log.info("Unable to save, same contact already exist for the patient");
-		}
+		/**
+		 * HTSService htsService = Context.getService(HTSService.class); RegistrationInfoService
+		 * registrationDataService = Context.getService(RegistrationInfoService.class); String
+		 * temporaryUuid = getPatientContactUuidFromPayload(); RegistrationInfo registrationData =
+		 * registrationDataService.getRegistrationDataByTemporaryUuid(temporaryUuid); if
+		 * (registrationData != null) { try { htsService.savePatientContact(unsavedPatientContact);
+		 * } catch (Exception e) { e.printStackTrace(); } } else {
+		 * log.info("Unable to save, same contact already exist for the patient"); }
+		 */
 	}
 	
 	private String getPatientContactUuidFromPayload() {

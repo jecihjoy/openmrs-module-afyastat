@@ -31,7 +31,6 @@ import org.openmrs.module.afyastat.model.RegistrationInfo;
 import org.openmrs.module.afyastat.model.handler.QueueInfoHandler;
 import org.openmrs.module.afyastat.utils.JsonFormatUtils;
 import org.openmrs.module.afyastat.utils.PatientLookUpUtils;
-import org.openmrs.module.kenyaemr.util.EmrUtils;
 import org.openmrs.util.OpenmrsUtil;
 import org.springframework.stereotype.Component;
 
@@ -415,17 +414,14 @@ public class JsonPeerCalenderEncounterQueueDataHandler implements QueueInfoHandl
 			patient = Context.getPatientService().getPatientByUuid(uuid);
 			
 		}
-		
-		lastPeerCalendarEncounter = EmrUtils.lastEncounter(patient,
-		    Context.getEncounterService().getEncounterTypeByUuid(peerCalendarEncounterType), Context.getFormService()
-		            .getFormByUuid(peerCalendarFormUuid));
-		if (lastPeerCalendarEncounter != null) {
-			Date datetime = lastPeerCalendarEncounter.getEncounterDatetime();
-			cal = Calendar.getInstance();
-			cal.setTime(datetime);
-			lastMonthPeerCalendarFilled = cal.get(Calendar.MONTH);
-			
-		}
+		/**
+		 * lastPeerCalendarEncounter = EmrUtils.lastEncounter(patient,
+		 * Context.getEncounterService().getEncounterTypeByUuid(peerCalendarEncounterType),
+		 * Context.getFormService() .getFormByUuid(peerCalendarFormUuid)); if
+		 * (lastPeerCalendarEncounter != null) { Date datetime =
+		 * lastPeerCalendarEncounter.getEncounterDatetime(); cal = Calendar.getInstance();
+		 * cal.setTime(datetime); lastMonthPeerCalendarFilled = cal.get(Calendar.MONTH); }
+		 */
 		
 	}
 	

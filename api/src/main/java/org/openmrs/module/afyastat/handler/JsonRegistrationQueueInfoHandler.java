@@ -36,7 +36,6 @@ import org.openmrs.module.afyastat.model.RegistrationInfo;
 import org.openmrs.module.afyastat.model.handler.QueueInfoHandler;
 import org.openmrs.module.afyastat.utils.JsonFormatUtils;
 import org.openmrs.module.afyastat.utils.PatientLookUpUtils;
-import org.openmrs.module.idgen.service.IdentifierSourceService;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -500,10 +499,10 @@ public class JsonRegistrationQueueInfoHandler implements QueueInfoHandler {
 			location = Context.getLocationService().getLocation(locationId);
 		}
 		
-		String generated = Context.getService(IdentifierSourceService.class).generateIdentifier(openmrsIDType,
-		    "Registration");
-		PatientIdentifier identifier = new PatientIdentifier(generated, openmrsIDType, location);
-		return identifier;
+		//		String generated = Context.getService(IdentifierSourceService.class).generateIdentifier(openmrsIDType,
+		//		    "Registration");
+		//		PatientIdentifier identifier = new PatientIdentifier(generated, openmrsIDType, location);
+		return new PatientIdentifier();
 	}
 	
 	private void registerUnsavedObs(Object obsObject, AfyaStatQueueData queueData) {

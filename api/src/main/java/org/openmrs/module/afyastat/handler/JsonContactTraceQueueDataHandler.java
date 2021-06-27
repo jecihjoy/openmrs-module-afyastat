@@ -22,9 +22,6 @@ import org.openmrs.module.afyastat.exception.StreamProcessorException;
 import org.openmrs.module.afyastat.model.AfyaStatQueueData;
 import org.openmrs.module.afyastat.model.handler.QueueInfoHandler;
 import org.openmrs.module.afyastat.utils.JsonFormatUtils;
-import org.openmrs.module.hivtestingservices.api.ContactTrace;
-import org.openmrs.module.hivtestingservices.api.HTSService;
-import org.openmrs.module.hivtestingservices.api.PatientContact;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -42,7 +39,7 @@ public class JsonContactTraceQueueDataHandler implements QueueInfoHandler {
 	
 	private final Log log = LogFactory.getLog(JsonContactTraceQueueDataHandler.class);
 	
-	private ContactTrace unsavedContactTrace;
+	//	private ContactTrace unsavedContactTrace;
 	
 	private String payload;
 	
@@ -75,7 +72,7 @@ public class JsonContactTraceQueueDataHandler implements QueueInfoHandler {
 		queueProcessorException = new StreamProcessorException();
 		try {
 			payload = queueData.getPayload();
-			unsavedContactTrace = new ContactTrace();
+			//			unsavedContactTrace = new ContactTrace();
 			populateUnsavedContactTraceFromPayload();
 			return true;
 		}
@@ -100,7 +97,7 @@ public class JsonContactTraceQueueDataHandler implements QueueInfoHandler {
 	}
 	
 	private void setContactTraceFromPayload() {
-		HTSService contact = Context.getService(HTSService.class);
+		//		HTSService contact = Context.getService(HTSService.class);
 		Date traceDate = JsonFormatUtils.readAsDate(payload, "$['fields']['encounter_date']",
 		    JsonFormatUtils.YYYY_MM_DD_DATE_PATTERN);
 		String contactType = contactTypeConverter(JsonFormatUtils.readAsString(payload,
@@ -124,42 +121,33 @@ public class JsonContactTraceQueueDataHandler implements QueueInfoHandler {
 		Integer contactId = getContactId(JsonFormatUtils.readAsString(payload, "$['fields']['inputs']['contact']['_id']"));
 		Boolean voided = false;
 		
-		unsavedContactTrace.setDate(traceDate);
-		unsavedContactTrace.setContactType(contactType);
-		unsavedContactTrace.setStatus(status);
-		if (reasonUncontacted != null) {
-			unsavedContactTrace.setReasonUncontacted(reasonUncontacted);
-		}
-		if (org.apache.commons.lang3.StringUtils.isNotBlank(reasonUncontacted)) {
-			unsavedContactTrace.setReasonUncontacted(reasonUncontacted);
-		}
-		if (org.apache.commons.lang3.StringUtils.isNotBlank(uniquePatientNo)) {
-			unsavedContactTrace.setUniquePatientNo(uniquePatientNo);
-		}
-		if (org.apache.commons.lang3.StringUtils.isNotBlank(facilityLinkedTo)) {
-			unsavedContactTrace.setFacilityLinkedTo(facilityLinkedTo);
-		}
-		if (bookingDate != null) {
-			unsavedContactTrace.setAppointmentDate(bookingDate);
-		}
-		// unsavedContactTrace.setHealthWorkerHandedTo(healthWorkerHandedTo);
-		if (remarks != null) {
-			unsavedContactTrace.setRemarks(remarks);
-		}
-		unsavedContactTrace.setPatientContact(contact.getPatientContactByID(contactId));
-		unsavedContactTrace.setUuid(uuid);
-		unsavedContactTrace.setVoided(voided);
+		/**
+		 * unsavedContactTrace.setDate(traceDate); unsavedContactTrace.setContactType(contactType);
+		 * unsavedContactTrace.setStatus(status); if (reasonUncontacted != null) {
+		 * unsavedContactTrace.setReasonUncontacted(reasonUncontacted); } if
+		 * (org.apache.commons.lang3.StringUtils.isNotBlank(reasonUncontacted)) {
+		 * unsavedContactTrace.setReasonUncontacted(reasonUncontacted); } if
+		 * (org.apache.commons.lang3.StringUtils.isNotBlank(uniquePatientNo)) {
+		 * unsavedContactTrace.setUniquePatientNo(uniquePatientNo); } if
+		 * (org.apache.commons.lang3.StringUtils.isNotBlank(facilityLinkedTo)) {
+		 * unsavedContactTrace.setFacilityLinkedTo(facilityLinkedTo); } if (bookingDate != null) {
+		 * unsavedContactTrace.setAppointmentDate(bookingDate); } //
+		 * unsavedContactTrace.setHealthWorkerHandedTo(healthWorkerHandedTo); if (remarks != null) {
+		 * unsavedContactTrace.setRemarks(remarks); }
+		 * unsavedContactTrace.setPatientContact(contact.getPatientContactByID(contactId));
+		 * unsavedContactTrace.setUuid(uuid); unsavedContactTrace.setVoided(voided);
+		 */
 	}
 	
 	private void registerUnsavedContactTrace() {
-		HTSService htsService = Context.getService(HTSService.class);
-		try {
-			htsService.saveClientTrace(unsavedContactTrace);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			
-		}
+		//		HTSService htsService = Context.getService(HTSService.class);
+		//		try {
+		//			htsService.saveClientTrace(unsavedContactTrace);
+		//		}
+		//		catch (Exception e) {
+		//			e.printStackTrace();
+		//
+		//		}
 	}
 	
 	private Integer getContactId(String uuid) {
@@ -167,11 +155,11 @@ public class JsonContactTraceQueueDataHandler implements QueueInfoHandler {
 			return null;
 		}
 		Integer contactId = null;
-		HTSService htsService = Context.getService(HTSService.class);
-		PatientContact patientContact = htsService.getPatientContactByID(10);
-		if (patientContact != null) {
-			contactId = patientContact.getId();
-		}
+		//		HTSService htsService = Context.getService(HTSService.class);
+		//		PatientContact patientContact = htsService.getPatientContactByID(10);
+		//		if (patientContact != null) {
+		//			contactId = patientContact.getId();
+		//		}
 		return contactId;
 		
 	}

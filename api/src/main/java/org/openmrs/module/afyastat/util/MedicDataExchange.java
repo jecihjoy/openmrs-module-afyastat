@@ -40,10 +40,6 @@ import org.openmrs.module.afyastat.api.service.InfoService;
 import org.openmrs.module.afyastat.api.service.MedicQueData;
 import org.openmrs.module.afyastat.metadata.AfyaStatMetadata;
 import org.openmrs.module.afyastat.model.AfyaDataSource;
-import org.openmrs.module.kenyaemr.api.KenyaEmrService;
-import org.openmrs.module.kenyaemr.util.EmrUtils;
-import org.openmrs.module.hivtestingservices.api.PatientContact;
-import org.openmrs.module.hivtestingservices.api.HTSService;
 
 
 import java.io.IOException;
@@ -55,7 +51,7 @@ public class MedicDataExchange {
 
 	AfyastatService afyastatService = Context.getService(AfyastatService.class);
 	InfoService dataService = Context.getService(InfoService.class);
-	HTSService htsService = Context.getService(HTSService.class);
+//	HTSService htsService = Context.getService(HTSService.class);
 	PersonService personService = Context.getPersonService();
 
 	EncounterService encService = Context.getEncounterService();
@@ -68,7 +64,7 @@ public class MedicDataExchange {
 
 	static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
 
-	private Integer locationId = Context.getService(KenyaEmrService.class).getDefaultLocation().getLocationId();
+	private Integer locationId = 10;//Context.getService(KenyaEmrService.class).getDefaultLocation().getLocationId();
 
 	private final Log log = LogFactory.getLog(MedicDataExchange.class);
 
@@ -588,7 +584,7 @@ public class MedicDataExchange {
 			String payload = jsonNode.toString();
 			String discriminator = "json-patientcontact";
 			String patientContactUuid = jsonNode.get("_id") != null ? jsonNode.get("_id").getTextValue() : "";
-			Integer locationId = Context.getService(KenyaEmrService.class).getDefaultLocation().getLocationId();
+			Integer locationId = 10;
 			String creator = jsonNode.path("meta").path("created_by") != null ? jsonNode.path("meta").path("created_by")
 			        .getTextValue() : "";
 			String providerString = checkProviderNameExists(creator);
@@ -680,7 +676,7 @@ public class MedicDataExchange {
 			String discriminator = "json-contacttrace";
 			String payload = jsonNode.toString();
 			String patientContactUuid = jsonNode.get("_id") != null ? jsonNode.get("_id").getTextValue() : "";
-			Integer locationId = Context.getService(KenyaEmrService.class).getDefaultLocation().getLocationId();
+			Integer locationId = 10;
 			String creator = jsonNode.path("fields").path("audit_trail").path("created_by") != null
 			        && jsonNode.path("fields").path("audit_trail").path("created_by").getTextValue() != null ? jsonNode
 			        .path("fields").path("audit_trail").path("created_by").getTextValue() : "";
@@ -803,7 +799,7 @@ public class MedicDataExchange {
 		Provider unknownProvider = Context.getProviderService().getAllProviders().get(0);
 		User superUser = Context.getUserService().getUser(1);
 		if (user != null) {
-			Provider s = EmrUtils.getProvider(user);
+			Provider s = new Provider();
 			// check if the user is a provider
 			if (s != null) {
 				providerIdentifier = s.getIdentifier();
@@ -811,7 +807,7 @@ public class MedicDataExchange {
 				providerIdentifier = unknownProvider.getIdentifier();
 			}
 		} else {
-			Provider p = EmrUtils.getProvider(superUser);
+			Provider p = new Provider();
 			if (p != null) {
 				providerIdentifier = p.getIdentifier();
 
@@ -1148,9 +1144,7 @@ public class MedicDataExchange {
 
 		String kpClinicalEnrolmentEncounterTypeUuid = "c7f47a56-207b-11e9-ab14-d663bd873d93";
 		String kpClinicalEnrolmentFormUuid = "c7f47cea-207b-11e9-ab14-d663bd873d93";
-		Encounter lastClinicalEnrolmentEncForPeers = EmrUtils.lastEncounter(patient,
-		    encounterService.getEncounterTypeByUuid(kpClinicalEnrolmentEncounterTypeUuid),
-		    formService.getFormByUuid(kpClinicalEnrolmentFormUuid));
+		Encounter lastClinicalEnrolmentEncForPeers = new Encounter();
 
 		String hivStatus = "";
 		int positiveConcept = 703;
@@ -1241,6 +1235,7 @@ public class MedicDataExchange {
 		fields.put("cht_ref_uuid", chtReference != null ? chtReference.getIdentifier() : "");
 
 		// add information about the client this contact was listed under
+		/**
 		PatientContact originalContactRecord = htsService.getPatientContactEntryForPatient(patient);
 		if (originalContactRecord != null) {
 			Patient relatedPatient = originalContactRecord.getPatientRelatedTo(); // we want the cht ref for this client for use in cht/afyastat
@@ -1262,6 +1257,7 @@ public class MedicDataExchange {
 			}
 		}
 
+		*/
 		fields.put("relation_uuid", parentChtRef != null ? parentChtRef.getIdentifier() : "");
 		fields.put("relation_type", relType != null ? relType : "");
 		fields.put("relation_name", StringUtils.isNotBlank(parentName) ? parentName : "");

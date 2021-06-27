@@ -26,8 +26,8 @@ import org.openmrs.module.afyastat.model.AfyaStatQueueData;
 import org.openmrs.module.afyastat.model.RegistrationInfo;
 import org.openmrs.module.afyastat.model.handler.QueueInfoHandler;
 import org.openmrs.module.afyastat.utils.JsonFormatUtils;
-import org.openmrs.module.hivtestingservices.api.HTSService;
-import org.openmrs.module.hivtestingservices.api.PatientContact;
+//import org.openmrs.module.hivtestingservices.api.HTSService;
+//import org.openmrs.module.hivtestingservices.api.PatientContact;
 
 import java.util.Date;
 
@@ -41,7 +41,7 @@ public class JsonContactListQueueDataHandler implements QueueInfoHandler {
 	
 	private final Log log = LogFactory.getLog(JsonContactListQueueDataHandler.class);
 	
-	private PatientContact unsavedPatientContact;
+	//	private PatientContact unsavedPatientContact;
 	
 	private String payload;
 	
@@ -74,7 +74,7 @@ public class JsonContactListQueueDataHandler implements QueueInfoHandler {
 		queueProcessorException = new StreamProcessorException();
 		try {
 			payload = queueData.getPayload();
-			unsavedPatientContact = new PatientContact();
+			//			unsavedPatientContact = new PatientContact();
 			populateUnsavedPatientContactFromPayload();
 			return true;
 		}
@@ -137,45 +137,32 @@ public class JsonContactListQueueDataHandler implements QueueInfoHandler {
 				baselineStatus = "Exposed Infant";
 			}
 		}
-		
-		unsavedPatientContact.setFirstName(givenName);
-		unsavedPatientContact.setMiddleName(middleName);
-		unsavedPatientContact.setLastName(familyName);
-		unsavedPatientContact.setRelationType(relType);
-		unsavedPatientContact.setBaselineHivStatus(baselineStatus);
-		if (nextTestDate != null) {
-			unsavedPatientContact.setAppointmentDate(nextTestDate);
-		}
-		
-		unsavedPatientContact.setBirthDate(birthDate);
-		unsavedPatientContact.setSex(sex);
-		if (org.apache.commons.lang3.StringUtils.isNotBlank(phoneNumber)) {
-			unsavedPatientContact.setPhoneContact(phoneNumber);
-		}
-		if (maritalStatus != null) {
-			unsavedPatientContact.setMaritalStatus(maritalStatus);
-		}
-		
-		if (livingWithPatient != null) {
-			unsavedPatientContact.setLivingWithPatient(livingWithPatient);
-		}
-		if (pnsApproach != null) {
-			unsavedPatientContact.setPnsApproach(pnsApproach);
-		}
-		unsavedPatientContact.setContactListingDeclineReason("CHT");// the field has temporarily been used to identify contact pushed from CHT
-		if (org.apache.commons.lang3.StringUtils.isNotBlank(physicalAddress)) {
-			unsavedPatientContact.setPhysicalAddress(physicalAddress);
-		}
-		if (ipvOutcome != null) {
-			unsavedPatientContact.setIpvOutcome(ipvOutcome);
-		}
-		unsavedPatientContact.setPatientRelatedTo(Context.getPatientService().getPatient(patientRelatedTo));
-		unsavedPatientContact.setUuid(uuid);
-		unsavedPatientContact.setVoided(voided);
+		/**
+		 * unsavedPatientContact.setFirstName(givenName);
+		 * unsavedPatientContact.setMiddleName(middleName);
+		 * unsavedPatientContact.setLastName(familyName);
+		 * unsavedPatientContact.setRelationType(relType);
+		 * unsavedPatientContact.setBaselineHivStatus(baselineStatus); if (nextTestDate != null) {
+		 * unsavedPatientContact.setAppointmentDate(nextTestDate); }
+		 * unsavedPatientContact.setBirthDate(birthDate); unsavedPatientContact.setSex(sex); if
+		 * (org.apache.commons.lang3.StringUtils.isNotBlank(phoneNumber)) {
+		 * unsavedPatientContact.setPhoneContact(phoneNumber); } if (maritalStatus != null) {
+		 * unsavedPatientContact.setMaritalStatus(maritalStatus); } if (livingWithPatient != null) {
+		 * unsavedPatientContact.setLivingWithPatient(livingWithPatient); } if (pnsApproach != null)
+		 * { unsavedPatientContact.setPnsApproach(pnsApproach); }
+		 * unsavedPatientContact.setContactListingDeclineReason("CHT");// the field has temporarily
+		 * been used to identify contact pushed from CHT if
+		 * (org.apache.commons.lang3.StringUtils.isNotBlank(physicalAddress)) {
+		 * unsavedPatientContact.setPhysicalAddress(physicalAddress); } if (ipvOutcome != null) {
+		 * unsavedPatientContact.setIpvOutcome(ipvOutcome); }
+		 * unsavedPatientContact.setPatientRelatedTo
+		 * (Context.getPatientService().getPatient(patientRelatedTo));
+		 * unsavedPatientContact.setUuid(uuid); unsavedPatientContact.setVoided(voided);
+		 */
 	}
 	
 	private void registerUnsavedPatientContact() {
-		HTSService htsService = Context.getService(HTSService.class);
+		/*HTSService htsService = Context.getService(HTSService.class);
 		RegistrationInfoService registrationDataService = Context.getService(RegistrationInfoService.class);
 		String temporaryUuid = getPatientContactUuidFromPayload();
 		RegistrationInfo registrationData = registrationDataService.getRegistrationDataByTemporaryUuid(temporaryUuid);
@@ -193,7 +180,7 @@ public class JsonContactListQueueDataHandler implements QueueInfoHandler {
 			registrationDataService.saveRegistrationData(registrationData);
 		} else {
 			log.info("Unable to save, same contact already exist for the patient");
-		}
+		}*/
 	}
 	
 	private String getPatientContactUuidFromPayload() {
