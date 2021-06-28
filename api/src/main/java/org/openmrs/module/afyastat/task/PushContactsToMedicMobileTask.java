@@ -24,6 +24,7 @@ import org.openmrs.GlobalProperty;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.afyastat.metadata.AfyaStatMetadata;
 import org.openmrs.module.afyastat.util.MedicDataExchange;
+import org.openmrs.module.afyastat.utils.GlobalPropertyUtil;
 import org.openmrs.scheduler.tasks.AbstractTask;
 
 /**
@@ -45,11 +46,11 @@ public class PushContactsToMedicMobileTask extends AbstractTask {
 			}
 			
 			GlobalProperty chtServerName = Context.getAdministrationService().getGlobalPropertyObject(
-			    AfyaStatMetadata.MEDIC_MOBILE_SERVER_URL);
+			    GlobalPropertyUtil.MEDIC_MOBILE_SERVER_URL);
 			GlobalProperty chtUser = Context.getAdministrationService().getGlobalPropertyObject(
-			    AfyaStatMetadata.MEDIC_MOBILE_USER);
+					GlobalPropertyUtil.MEDIC_MOBILE_USER);
 			GlobalProperty chtPwd = Context.getAdministrationService().getGlobalPropertyObject(
-			    AfyaStatMetadata.MEDIC_MOBILE_PWD);
+					GlobalPropertyUtil.MEDIC_MOBILE_PWD);
 			
 			boolean hasData = false;
 			
@@ -63,10 +64,10 @@ public class PushContactsToMedicMobileTask extends AbstractTask {
 			}
 			
 			GlobalProperty globalPropertyObject = Context.getAdministrationService().getGlobalPropertyObject(
-			    AfyaStatMetadata.AFYASTAT_CONTACT_LIST_LAST_FETCH_TIMESTAMP);
+					GlobalPropertyUtil.AFYASTAT_CONTACT_LIST_LAST_FETCH_TIMESTAMP);
 			if (globalPropertyObject == null) {
 				System.out.println("Missing required global property: "
-				        + AfyaStatMetadata.AFYASTAT_CONTACT_LIST_LAST_FETCH_TIMESTAMP);
+				        + GlobalPropertyUtil.AFYASTAT_CONTACT_LIST_LAST_FETCH_TIMESTAMP);
 				return;
 			}
 			

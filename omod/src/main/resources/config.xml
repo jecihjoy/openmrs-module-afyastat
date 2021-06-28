@@ -45,6 +45,43 @@
 
 	</mappingFiles>
 
+	<globalProperty>
+		<property>medic.lastSavedPatientContact</property>
+		<defaultValue></defaultValue>
+		<description>Id for the last case contact entry for CHT.</description>
+	</globalProperty>
+	<globalProperty>
+		<property>medic.chtServerUrl</property>
+		<defaultValue></defaultValue>
+		<description>Server URL for Medic Mobile CHT.</description>
+	</globalProperty>
+	<globalProperty>
+		<property>medic.lastSavedPersonId</property>
+		<defaultValue></defaultValue>
+		<description>Medic last patient entry ID.</description>
+	</globalProperty>
+	<globalProperty>
+		<property>medic.chtUser</property>
+		<defaultValue></defaultValue>
+		<description>Medic Mobile CHT user.</description>
+	</globalProperty>
+	<globalProperty>
+		<property>medic.chtPwd</property>
+		<defaultValue></defaultValue>
+		<description>Medic Mobile CHT pwd.</description>
+	</globalProperty>
+	<globalProperty>
+		<property>afyastatLinkageListTask.lastFetchDateAndTime
+		</property>
+		<defaultValue></defaultValue>
+		<description>The last time linkage list was fetched.</description>
+	</globalProperty>
+	<globalProperty>
+		<property>afyastatContactListTask.lastFetchDateAndTime
+		</property>
+		<defaultValue></defaultValue>
+		<description>The last time contact list was fetched.</description>
+	</globalProperty>
 
 
 	<messages>

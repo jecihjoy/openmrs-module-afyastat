@@ -40,6 +40,7 @@ import org.openmrs.module.afyastat.api.service.InfoService;
 import org.openmrs.module.afyastat.api.service.MedicQueData;
 import org.openmrs.module.afyastat.metadata.AfyaStatMetadata;
 import org.openmrs.module.afyastat.model.AfyaDataSource;
+import org.openmrs.module.afyastat.utils.GlobalPropertyUtil;
 
 
 import java.io.IOException;
@@ -1401,10 +1402,10 @@ public class MedicDataExchange {
 		Date fetchDate = null;
 		String effectiveDate = null;
 		GlobalProperty globalPropertyObject = Context.getAdministrationService().getGlobalPropertyObject(
-				AfyaStatMetadata.AFYASTAT_CONTACT_LIST_LAST_FETCH_TIMESTAMP);
+				GlobalPropertyUtil.AFYASTAT_CONTACT_LIST_LAST_FETCH_TIMESTAMP);
 		if (globalPropertyObject == null) {
 			System.out.println("Missing required global property: "
-					+ AfyaStatMetadata.AFYASTAT_CONTACT_LIST_LAST_FETCH_TIMESTAMP);
+					+ GlobalPropertyUtil.AFYASTAT_CONTACT_LIST_LAST_FETCH_TIMESTAMP);
 			return null ;
 		}
 
@@ -1478,10 +1479,10 @@ public class MedicDataExchange {
 		Date fetchDate = null;
 		String effectiveDate = null;
 		GlobalProperty globalPropertyObject = Context.getAdministrationService().getGlobalPropertyObject(
-				AfyaStatMetadata.AFYASTAT_LINKAGE_LIST_LAST_FETCH_TIMESTAMP);
+				GlobalPropertyUtil.AFYASTAT_LINKAGE_LIST_LAST_FETCH_TIMESTAMP);
 		if (globalPropertyObject == null) {
 			System.out.println("Missing required global property: "
-					+ AfyaStatMetadata.AFYASTAT_LINKAGE_LIST_LAST_FETCH_TIMESTAMP);
+					+ GlobalPropertyUtil.AFYASTAT_LINKAGE_LIST_LAST_FETCH_TIMESTAMP);
 			return null ;
 		}
 
