@@ -1,6 +1,6 @@
 package org.openmrs.module.afyastat.utils;
 
-public class GlobalPropertyUtil {
+public class AfyaStatMetadataUtild {
 	
 	public static final String MEDIC_MOBILE_LAST_PATIENT_CONTACT_ENTRY = "medic.lastSavedPatientContact";
 	

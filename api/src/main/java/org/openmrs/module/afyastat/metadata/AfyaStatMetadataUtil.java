@@ -14,13 +14,22 @@
 
 package org.openmrs.module.afyastat.metadata;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openmrs.PatientIdentifierType;
+import org.openmrs.api.PatientService;
+import org.openmrs.api.context.Context;
 import org.springframework.stereotype.Component;
 
 /**
  * Metadata constants
  */
 @Component
-public class AfyaStatMetadata {
+public class AfyaStatMetadataUtil {
+	
+	private PatientService patientService = Context.getPatientService();
+	
+	Log log = LogFactory.getLog(this.getClass());
 	
 	public static final String MODULE_ID = "afyastat";
 	
@@ -45,6 +54,28 @@ public class AfyaStatMetadata {
 		public static final String CHT_RECORD_UUID = "c6552b22-f191-4557-a432-1f4df872d473";
 	}
 	
+	public PatientIdentifierType save() {
+		
+		PatientIdentifierType existingIdentifierType = patientService
+		        .getPatientIdentifierTypeByUuid(_PatientIdentifierType.CHT_RECORD_UUID);
+		
+		if (existingIdentifierType == null) {
+			log.error("Existing PatientIdentifierType");
+			PatientIdentifierType identifierType = new PatientIdentifierType();
+			identifierType.setName("CHT Identifier");
+			identifierType.setUuid(_PatientIdentifierType.CHT_RECORD_UUID);
+			identifierType.setRequired(false);
+			identifierType.setDescription("CHT Record Reference UUID");
+			identifierType.setLocationBehavior(PatientIdentifierType.LocationBehavior.NOT_USED);
+			log.error("Existing PatientIdentifierType is null");
+			return patientService.savePatientIdentifierType(identifierType);
+		}
+		
+		log.error("Existing PatientIdentifierType");
+		return existingIdentifierType;
+		
+		//return patientService.savePatientIdentifierType(identifierType);
+	}
 	/**
 	 * @Override public void install() throws Exception {
 	 *           install(globalProperty(MEDIC_MOBILE_LAST_PATIENT_CONTACT_ENTRY,

@@ -19,9 +19,6 @@ import org.openmrs.Location;
 import org.openmrs.Concept;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.PatientIdentifier;
-import org.openmrs.Program;
-import org.openmrs.Relationship;
-import org.openmrs.PatientProgram;
 import org.openmrs.Obs;
 import org.openmrs.Encounter;
 import org.openmrs.Form;
@@ -38,9 +35,8 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.afyastat.api.AfyastatService;
 import org.openmrs.module.afyastat.api.service.InfoService;
 import org.openmrs.module.afyastat.api.service.MedicQueData;
-import org.openmrs.module.afyastat.metadata.AfyaStatMetadata;
+import org.openmrs.module.afyastat.metadata.AfyaStatMetadataUtil;
 import org.openmrs.module.afyastat.model.AfyaDataSource;
-import org.openmrs.module.afyastat.utils.GlobalPropertyUtil;
 
 
 import java.io.IOException;
@@ -61,7 +57,7 @@ public class MedicDataExchange {
 	Form initial = formService.getFormByUuid(Utils.HTS_INITIAL_TEST);
 	Form retest = formService.getFormByUuid(Utils.HTS_CONFIRMATORY_TEST);
 
-	PersonAttributeType phoneNumberAttrType = personService.getPersonAttributeTypeByUuid(AfyaStatMetadata.TELEPHONE_CONTACT);
+	PersonAttributeType phoneNumberAttrType = personService.getPersonAttributeTypeByUuid(AfyaStatMetadataUtil.TELEPHONE_CONTACT);
 
 	static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -744,7 +740,7 @@ public class MedicDataExchange {
 
 	private ObjectNode assignCHTReferenceUUID(String chtContactUuid) {
 		ObjectNode identifiers = getJsonNodeFactory().objectNode();
-		identifiers.put("identifier_type_uuid", AfyaStatMetadata._PatientIdentifierType.CHT_RECORD_UUID);
+		identifiers.put("identifier_type_uuid", AfyaStatMetadataUtil._PatientIdentifierType.CHT_RECORD_UUID);
 		identifiers.put("identifier_value", chtContactUuid);
 		identifiers.put("identifier_type_name", "CHT Record Reference UUID");
 		return identifiers;
@@ -1212,7 +1208,7 @@ public class MedicDataExchange {
 		objectWrapper.put("reported_date", patient.getDateCreated().getTime());
 
 		PatientIdentifierType chtRefType = Context.getPatientService().getPatientIdentifierTypeByUuid(
-		    AfyaStatMetadata._PatientIdentifierType.CHT_RECORD_UUID);
+		    AfyaStatMetadataUtil._PatientIdentifierType.CHT_RECORD_UUID);
 		//PatientIdentifier nationalId = patient.getPatientIdentifier(Utils.NATIONAL_ID);
 		PatientIdentifier chtReference = patient.getPatientIdentifier(chtRefType);
 
@@ -1402,10 +1398,10 @@ public class MedicDataExchange {
 		Date fetchDate = null;
 		String effectiveDate = null;
 		GlobalProperty globalPropertyObject = Context.getAdministrationService().getGlobalPropertyObject(
-				GlobalPropertyUtil.AFYASTAT_CONTACT_LIST_LAST_FETCH_TIMESTAMP);
+				AfyaStatMetadataUtil.AFYASTAT_CONTACT_LIST_LAST_FETCH_TIMESTAMP);
 		if (globalPropertyObject == null) {
 			System.out.println("Missing required global property: "
-					+ GlobalPropertyUtil.AFYASTAT_CONTACT_LIST_LAST_FETCH_TIMESTAMP);
+					+ AfyaStatMetadataUtil.AFYASTAT_CONTACT_LIST_LAST_FETCH_TIMESTAMP);
 			return null ;
 		}
 
@@ -1479,10 +1475,10 @@ public class MedicDataExchange {
 		Date fetchDate = null;
 		String effectiveDate = null;
 		GlobalProperty globalPropertyObject = Context.getAdministrationService().getGlobalPropertyObject(
-				GlobalPropertyUtil.AFYASTAT_LINKAGE_LIST_LAST_FETCH_TIMESTAMP);
+				AfyaStatMetadataUtil.AFYASTAT_LINKAGE_LIST_LAST_FETCH_TIMESTAMP);
 		if (globalPropertyObject == null) {
 			System.out.println("Missing required global property: "
-					+ GlobalPropertyUtil.AFYASTAT_LINKAGE_LIST_LAST_FETCH_TIMESTAMP);
+					+ AfyaStatMetadataUtil.AFYASTAT_LINKAGE_LIST_LAST_FETCH_TIMESTAMP);
 			return null ;
 		}
 

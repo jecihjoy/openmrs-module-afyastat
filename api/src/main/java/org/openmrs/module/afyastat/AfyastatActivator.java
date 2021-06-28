@@ -11,10 +11,9 @@ package org.openmrs.module.afyastat;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.GlobalProperty;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.BaseModuleActivator;
-import org.openmrs.module.afyastat.utils.GlobalPropertyUtil;
+import org.openmrs.module.afyastat.metadata.AfyaStatMetadataUtil;
 
 /**
  * This class contains the logic that is run every time this module is either started or shutdown
@@ -28,8 +27,11 @@ public class AfyastatActivator extends BaseModuleActivator {
 	 */
 	public void started() {
 		log.info("Started Afyastat");
-		String medicUser = Context.getAdministrationService().getGlobalProperty(GlobalPropertyUtil.MEDIC_MOBILE_USER);
+		String medicUser = Context.getAdministrationService()
+		        .getGlobalProperty(AfyaStatMetadataUtil.MEDIC_MOBILE_SERVER_URL);
 		log.error("MEDIC_MOBILE_USER " + medicUser);
+		AfyaStatMetadataUtil util = new AfyaStatMetadataUtil();
+		log.error(util.save());
 	}
 	
 	/**
