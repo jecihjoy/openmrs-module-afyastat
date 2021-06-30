@@ -17,9 +17,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.afyastat.api.db.RegistrationInfoDao;
 import org.openmrs.module.afyastat.model.RegistrationInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class HibernateRegistrationInfoDao extends HibernateSingleClassInfoDao<Re
 	private final Log log = LogFactory.getLog(this.getClass());
 	
 	@Autowired
-	protected SessionFactory sessionFactory;
+	protected DbSessionFactory sessionFactory;
 	
 	public HibernateRegistrationInfoDao() {
 		super(RegistrationInfo.class);
@@ -44,7 +44,7 @@ public class HibernateRegistrationInfoDao extends HibernateSingleClassInfoDao<Re
 	/**
 	 * @return the sessionFactory
 	 */
-	protected SessionFactory getSessionFactory() {
+	protected DbSessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 	

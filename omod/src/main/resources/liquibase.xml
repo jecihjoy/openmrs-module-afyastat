@@ -484,4 +484,33 @@
         </insert>
     </changeSet>
 
+    <changeSet id="cht_patient_identifier_type_20210625" author="jecihjoy">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT count(*) FROM patient_identifier_type where uuid = '30eb8871-5c77-4929-8d4d-0b60b2907890'
+            </sqlCheck>
+        </preConditions>
+        <comment>Inserting CHT patient identifier type to 'patient_identifier_type' table</comment>
+        <insert tableName="patient_identifier_type">
+            <column name="name" value="CHT Identifier" />
+            <column name="description" value="CHT Record Reference UUID" />
+            <column name="format" type="varchar(255)" />
+            <column name="check_digit" value="0" />
+            <column name="creator" value="1" />
+            <column name="date_created" valueDate="CURRENT_TIMESTAMP" />
+            <column name="required" value="0" />
+            <column name="format_description" type="varchar(255)" />
+            <column name="validator" type="varchar(200)"  />
+            <column name="retired" valueDate="0" />
+            <column name="required" value="0" />
+            <column name="date_retired" type="datetime" />
+            <column name="retire_reason" type="varchar(255)"  />
+            <column name="uuid" value="c6552b22-f191-4557-a432-1f4df872d473" />
+            <column name="location_behavior" value="NOT_USED" />
+            <column name="uniqueness_behavior" type="varchar(50)" />
+            <column name="date_changed" type="datetime" />
+            <column name="changed_by" type="varchar(255)"  />
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>

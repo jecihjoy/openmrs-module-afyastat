@@ -27,11 +27,6 @@ public class AfyastatActivator extends BaseModuleActivator {
 	 */
 	public void started() {
 		log.info("Started Afyastat");
-		String medicUser = Context.getAdministrationService()
-		        .getGlobalProperty(AfyaStatMetadataUtil.MEDIC_MOBILE_SERVER_URL);
-		log.error("MEDIC_MOBILE_USER " + medicUser);
-		AfyaStatMetadataUtil util = new AfyaStatMetadataUtil();
-		log.error(util.save());
 	}
 	
 	/**

@@ -40,10 +40,6 @@ public class PushContactsToMedicMobileTask extends AbstractTask {
 		Context.openSession();
 		try {
 			
-			if (!Context.isAuthenticated()) {
-				authenticate();
-			}
-			
 			GlobalProperty chtServerName = Context.getAdministrationService().getGlobalPropertyObject(
 			    AfyaStatMetadataUtil.MEDIC_MOBILE_SERVER_URL);
 			GlobalProperty chtUser = Context.getAdministrationService().getGlobalPropertyObject(

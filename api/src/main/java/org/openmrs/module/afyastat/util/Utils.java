@@ -16,27 +16,27 @@ public class Utils {
 	/**
 	 * Lifted from KenyaEMR common metadata
 	 */
-	public static final String NEXT_OF_KIN_ADDRESS = "7cf22bec-d90a-46ad-9f48-035952261294";
+	public static final String NEXT_OF_KIN_ADDRESS = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String NEXT_OF_KIN_CONTACT = "342a1d39-c541-4b29-8818-930916f4c2dc";
+	public static final String NEXT_OF_KIN_CONTACT = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String NEXT_OF_KIN_NAME = "830bef6d-b01f-449d-9f8d-ac0fede8dbd3";
+	public static final String NEXT_OF_KIN_NAME = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String NEXT_OF_KIN_RELATIONSHIP = "d0aa9fd1-2ac5-45d8-9c5e-4317c622c8f5";
+	public static final String NEXT_OF_KIN_RELATIONSHIP = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String SUBCHIEF_NAME = "40fa0c9c-7415-43ff-a4eb-c7c73d7b1a7a";
+	public static final String SUBCHIEF_NAME = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String TELEPHONE_CONTACT = "b2c38640-2603-4629-aebd-3b54f33f1e3a";
+	public static final String TELEPHONE_CONTACT = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String EMAIL_ADDRESS = "b8d0b331-1d2d-4a9a-b741-1816f498bdb6";
+	public static final String EMAIL_ADDRESS = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String ALTERNATE_PHONE_CONTACT = "94614350-84c8-41e0-ac29-86bc107069be";
+	public static final String ALTERNATE_PHONE_CONTACT = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String NEAREST_HEALTH_CENTER = "27573398-4651-4ce5-89d8-abec5998165c";
+	public static final String NEAREST_HEALTH_CENTER = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String GUARDIAN_FIRST_NAME = "8caf6d06-9070-49a5-b715-98b45e5d427b";
+	public static final String GUARDIAN_FIRST_NAME = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String GUARDIAN_LAST_NAME = "0803abbd-2be4-4091-80b3-80c6940303df";
+	public static final String GUARDIAN_LAST_NAME = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
 	public static final String CWC_NUMBER = "1dc8b419-35f2-4316-8d68-135f0689859b";
 	
@@ -46,9 +46,9 @@ public class Utils {
 	
 	public static final String OPENMRS_ID = "dfacd928-0370-4315-99d7-6ec1c9f7ae76";
 	
-	public static final String NATIONAL_ID = "49af6cdc-7968-4abb-bf46-de10d7f4859f";
+	public static final String NATIONAL_ID = "58a47054-1359-11df-a1f1-0026b9348838";
 	
-	public static final String OLD = "8d79403a-c2cc-11de-8d13-0010c6dffd0f";
+	public static final String OLD = "58a46e2e-1359-11df-a1f1-0026b9348838";
 	
 	public static final String PATIENT_CLINIC_NUMBER = "b4d66522-11fc-45c7-83e3-39a1af21ae0d";
 	

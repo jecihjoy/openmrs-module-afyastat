@@ -15,8 +15,9 @@ package org.openmrs.module.afyastat.api.db.hibernate;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.SessionFactory;
+
 import org.openmrs.api.db.DAOException;
+import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.afyastat.api.db.AfyastatDao;
 import org.openmrs.module.afyastat.api.service.MedicQueData;
 
@@ -24,7 +25,7 @@ public class HibernateAfyaStatDAO implements AfyastatDao {
 	
 	protected final Log log = LogFactory.getLog(this.getClass());
 	
-	private SessionFactory sessionFactory;
+	private DbSessionFactory sessionFactory;
 	
 	/**
 	 * @Autowired private HTSDAO htsDAO;
@@ -33,11 +34,11 @@ public class HibernateAfyaStatDAO implements AfyastatDao {
 	/**
 	 * @param sessionFactory the sessionFactory to set
 	 */
-	public void setSessionFactory(SessionFactory sessionFactory) {
+	public void setSessionFactory(DbSessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 	
-	public SessionFactory getSessionFactory() {
+	public DbSessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 	

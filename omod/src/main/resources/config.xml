@@ -20,6 +20,7 @@
 	<require_version>1.* - 2.*</require_version>
 	<require_modules>
 		<require_module version="${webservicesRestVersion}">org.openmrs.module.webservices.rest</require_module>
+		<require_module version="${idgenVersion}">org.openmrs.module.idgen</require_module>
 	</require_modules>
 	
 	<!-- Extensions -->

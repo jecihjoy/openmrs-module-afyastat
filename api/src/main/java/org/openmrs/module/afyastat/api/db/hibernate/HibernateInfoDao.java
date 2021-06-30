@@ -17,8 +17,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.*;
+import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.afyastat.api.db.InfoDao;
 import org.openmrs.module.afyastat.model.Info;
 import org.openmrs.module.afyastat.model.handler.InfoHandler;
@@ -34,7 +34,7 @@ import java.util.List;
 public abstract class HibernateInfoDao<T extends Info> extends HibernateSingleClassInfoDao<T> implements InfoDao<T> {
 	
 	@Autowired
-	protected SessionFactory sessionFactory;
+	protected DbSessionFactory sessionFactory;
 	
 	private final Log log = LogFactory.getLog(HibernateInfoDao.class);
 	
@@ -50,7 +50,7 @@ public abstract class HibernateInfoDao<T extends Info> extends HibernateSingleCl
 	/**
 	 * @return the sessionFactory
 	 */
-	protected SessionFactory getSessionFactory() {
+	protected DbSessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 	

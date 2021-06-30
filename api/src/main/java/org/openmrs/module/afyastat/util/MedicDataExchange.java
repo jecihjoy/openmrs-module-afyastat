@@ -120,7 +120,7 @@ public class MedicDataExchange {
 
 		if (jsonNode != null) {
 			ObjectNode regNode = (ObjectNode) jsonNode.get("registration");
-			String documentId = regNode.get("_id").getTextValue();
+				String documentId = regNode.get("_id").getTextValue();
 			if (dataService.getQueueDataByUuid(documentId) != null) {
 				System.out.println("Afyastat attempted to send a duplicate record with uuid = " + documentId + ". The payload will be ignored");
 				return "Afyastat sent a duplicate registration to KenyaEMR. This has been ignored";
@@ -336,10 +336,10 @@ public class MedicDataExchange {
 		encounter.put("encounter.provider_id_select", providerId != null ? providerId : " ");
 		encounter.put("encounter.provider_id", providerId != null ? providerId : " ");
 		encounter.put("encounter.encounter_datetime", convertTime(longDate));
-		encounter.put("encounter.form_uuid", "8898c6e1-5df1-409f-b8ed-c88e6e0f24e9");
+		encounter.put("encounter.form_uuid", "dfac3ba8-1350-11df-a1f1-0026b9348838");
 		encounter.put("encounter.user_system_id", systemId);
 		encounter.put("encounter.device_time_zone", "Africa\\/Nairobi");
-		encounter.put("encounter.setup_config_uuid", "2107eab5-5b3a-4de8-9e02-9d97bce635d2");
+		encounter.put("encounter.setup_config_uuid", "df555734-1350-11df-a1f1-0026b9348838");
 
 		registrationWrapper.put("patient", patientNode);
 		registrationWrapper.put("observation", obs);
@@ -796,7 +796,7 @@ public class MedicDataExchange {
 		Provider unknownProvider = Context.getProviderService().getAllProviders().get(0);
 		User superUser = Context.getUserService().getUser(1);
 		if (user != null) {
-			Provider s = new Provider();
+			Provider s = getProvider(user);
 			// check if the user is a provider
 			if (s != null) {
 				providerIdentifier = s.getIdentifier();
@@ -804,7 +804,7 @@ public class MedicDataExchange {
 				providerIdentifier = unknownProvider.getIdentifier();
 			}
 		} else {
-			Provider p = new Provider();
+			Provider p = getProvider(user);
 			if (p != null) {
 				providerIdentifier = p.getIdentifier();
 
@@ -1141,7 +1141,9 @@ public class MedicDataExchange {
 
 		String kpClinicalEnrolmentEncounterTypeUuid = "c7f47a56-207b-11e9-ab14-d663bd873d93";
 		String kpClinicalEnrolmentFormUuid = "c7f47cea-207b-11e9-ab14-d663bd873d93";
-		Encounter lastClinicalEnrolmentEncForPeers = new Encounter();
+		Encounter lastClinicalEnrolmentEncForPeers = lastEncounter(patient,
+				encounterService.getEncounterTypeByUuid(kpClinicalEnrolmentEncounterTypeUuid),
+				formService.getFormByUuid(kpClinicalEnrolmentFormUuid));
 
 		String hivStatus = "";
 		int positiveConcept = 703;
@@ -1819,6 +1821,17 @@ public class MedicDataExchange {
 		public void setTimestamp(String timestamp) {
 			this.timestamp = timestamp;
 		}
+	}
+
+	public static Provider getProvider(User user) {
+		Person person = user.getPerson();
+		Collection<Provider> providers = Context.getProviderService().getProvidersByPerson(person);
+		return providers.size() > 0 ? providers.iterator().next() : null;
+	}
+
+	public static Encounter lastEncounter(Patient patient, EncounterType type, Form form) {
+		List<Encounter> encounters = Context.getEncounterService().getEncounters(patient, null, null, null, Collections.singleton(form), Collections.singleton(type), null, null, null, false);
+		return encounters.size() > 0 ? encounters.get(encounters.size() - 1) : null;
 	}
 
 }

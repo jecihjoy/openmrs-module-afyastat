@@ -40,7 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * TODO brief class desceription.
+ * TODO brief class description.
  */
 @Component
 @Handler(supports = AfyaStatQueueData.class, order = 5)
@@ -414,14 +414,15 @@ public class JsonPeerCalenderEncounterQueueDataHandler implements QueueInfoHandl
 			patient = Context.getPatientService().getPatientByUuid(uuid);
 			
 		}
-		/**
-		 * lastPeerCalendarEncounter = EmrUtils.lastEncounter(patient,
-		 * Context.getEncounterService().getEncounterTypeByUuid(peerCalendarEncounterType),
-		 * Context.getFormService() .getFormByUuid(peerCalendarFormUuid)); if
-		 * (lastPeerCalendarEncounter != null) { Date datetime =
-		 * lastPeerCalendarEncounter.getEncounterDatetime(); cal = Calendar.getInstance();
-		 * cal.setTime(datetime); lastMonthPeerCalendarFilled = cal.get(Calendar.MONTH); }
-		 */
+		lastPeerCalendarEncounter = lastEncounter(patient,
+		    Context.getEncounterService().getEncounterTypeByUuid(peerCalendarEncounterType), Context.getFormService()
+		            .getFormByUuid(peerCalendarFormUuid));
+		if (lastPeerCalendarEncounter != null) {
+			Date datetime = lastPeerCalendarEncounter.getEncounterDatetime();
+			cal = Calendar.getInstance();
+			cal.setTime(datetime);
+			lastMonthPeerCalendarFilled = cal.get(Calendar.MONTH);
+		}
 		
 	}
 	
@@ -545,5 +546,11 @@ public class JsonPeerCalenderEncounterQueueDataHandler implements QueueInfoHandl
 			useNewVisit(encounter);
 			
 		}
+	}
+	
+	public static Encounter lastEncounter(Patient patient, EncounterType type, Form form) {
+		List<Encounter> encounters = Context.getEncounterService().getEncounters(patient, null, null, null,
+		    Collections.singleton(form), Collections.singleton(type), null, null, null, false);
+		return encounters.size() > 0 ? encounters.get(encounters.size() - 1) : null;
 	}
 }

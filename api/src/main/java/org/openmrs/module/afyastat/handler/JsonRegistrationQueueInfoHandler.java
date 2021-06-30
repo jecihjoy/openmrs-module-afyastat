@@ -36,6 +36,7 @@ import org.openmrs.module.afyastat.model.RegistrationInfo;
 import org.openmrs.module.afyastat.model.handler.QueueInfoHandler;
 import org.openmrs.module.afyastat.utils.JsonFormatUtils;
 import org.openmrs.module.afyastat.utils.PatientLookUpUtils;
+import org.openmrs.module.idgen.service.IdentifierSourceService;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -67,27 +68,27 @@ public class JsonRegistrationQueueInfoHandler implements QueueInfoHandler {
 	
 	private StreamProcessorException queueProcessorException;
 	
-	public static final String NEXT_OF_KIN_ADDRESS = "7cf22bec-d90a-46ad-9f48-035952261294";
+	public static final String NEXT_OF_KIN_ADDRESS = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String NEXT_OF_KIN_CONTACT = "342a1d39-c541-4b29-8818-930916f4c2dc";
+	public static final String NEXT_OF_KIN_CONTACT = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String NEXT_OF_KIN_NAME = "830bef6d-b01f-449d-9f8d-ac0fede8dbd3";
+	public static final String NEXT_OF_KIN_NAME = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String NEXT_OF_KIN_RELATIONSHIP = "d0aa9fd1-2ac5-45d8-9c5e-4317c622c8f5";
+	public static final String NEXT_OF_KIN_RELATIONSHIP = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String SUBCHIEF_NAME = "40fa0c9c-7415-43ff-a4eb-c7c73d7b1a7a";
+	public static final String SUBCHIEF_NAME = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String TELEPHONE_CONTACT = "b2c38640-2603-4629-aebd-3b54f33f1e3a";
+	public static final String TELEPHONE_CONTACT = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String EMAIL_ADDRESS = "b8d0b331-1d2d-4a9a-b741-1816f498bdb6";
+	public static final String EMAIL_ADDRESS = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String ALTERNATE_PHONE_CONTACT = "94614350-84c8-41e0-ac29-86bc107069be";
+	public static final String ALTERNATE_PHONE_CONTACT = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String NEAREST_HEALTH_CENTER = "27573398-4651-4ce5-89d8-abec5998165c";
+	public static final String NEAREST_HEALTH_CENTER = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String GUARDIAN_FIRST_NAME = "8caf6d06-9070-49a5-b715-98b45e5d427b";
+	public static final String GUARDIAN_FIRST_NAME = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String GUARDIAN_LAST_NAME = "0803abbd-2be4-4091-80b3-80c6940303df";
+	public static final String GUARDIAN_LAST_NAME = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
 	@Override
 	public void process(final AfyaStatQueueData queueData) throws StreamProcessorException {
@@ -328,16 +329,21 @@ public class JsonRegistrationQueueInfoHandler implements QueueInfoHandler {
 	}
 	
 	private void registerUnsavedPatient() {
-		RegistrationInfoService registrationDataService = Context.getService(RegistrationInfoService.class);
-		String temporaryUuid = getPatientUuidFromPayload();
-		RegistrationInfo registrationData = registrationDataService.getRegistrationDataByTemporaryUuid(temporaryUuid);
-		if (registrationData == null) {
-			registrationData = new RegistrationInfo();
-			registrationData.setTemporaryUuid(temporaryUuid);
-			Context.getPatientService().savePatient(unsavedPatient);
-			String assignedUuid = unsavedPatient.getUuid();
-			registrationData.setAssignedUuid(assignedUuid);
-			registrationDataService.saveRegistrationData(registrationData);
+		try {
+			RegistrationInfoService registrationDataService = Context.getService(RegistrationInfoService.class);
+			String temporaryUuid = getPatientUuidFromPayload();
+			RegistrationInfo registrationData = registrationDataService.getRegistrationDataByTemporaryUuid(temporaryUuid);
+			if (registrationData == null) {
+				registrationData = new RegistrationInfo();
+				registrationData.setTemporaryUuid(temporaryUuid);
+				Context.getPatientService().savePatient(unsavedPatient);
+				String assignedUuid = unsavedPatient.getUuid();
+				registrationData.setAssignedUuid(assignedUuid);
+				registrationDataService.saveRegistrationData(registrationData);
+			}
+		}
+		catch (Exception e) {
+			queueProcessorException.addException(new Exception("Patient registration error: " + e));
 		}
 	}
 	
@@ -488,7 +494,7 @@ public class JsonRegistrationQueueInfoHandler implements QueueInfoHandler {
 	 */
 	private PatientIdentifier generateOpenMRSID() {
 		PatientIdentifierType openmrsIDType = Context.getPatientService().getPatientIdentifierTypeByUuid(
-		    "dfacd928-0370-4315-99d7-6ec1c9f7ae76");
+		    "58a4732e-1359-11df-a1f1-0026b9348838");
 		
 		String locationIdString = JsonFormatUtils.readAsString(payload, "$['encounter']['encounter.location_id']");
 		Location location = null;
@@ -498,11 +504,16 @@ public class JsonRegistrationQueueInfoHandler implements QueueInfoHandler {
 			locationId = Integer.parseInt(locationIdString);
 			location = Context.getLocationService().getLocation(locationId);
 		}
-		
-		//		String generated = Context.getService(IdentifierSourceService.class).generateIdentifier(openmrsIDType,
-		//		    "Registration");
-		//		PatientIdentifier identifier = new PatientIdentifier(generated, openmrsIDType, location);
-		return new PatientIdentifier();
+
+
+		/**
+		 * TODO Fix ID gen returns null identifier
+		 */
+		String generated = Context.getService(IdentifierSourceService.class).generateIdentifier(openmrsIDType,
+		    "Registration");
+		log.error("ID GEN VALUE " + generated);
+		PatientIdentifier identifier = new PatientIdentifier(generated, openmrsIDType, location);
+		return identifier;
 	}
 	
 	private void registerUnsavedObs(Object obsObject, AfyaStatQueueData queueData) {

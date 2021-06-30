@@ -27,10 +27,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class AfyaStatMetadataUtil {
 	
-	private PatientService patientService = Context.getPatientService();
-	
-	Log log = LogFactory.getLog(this.getClass());
-	
 	public static final String MODULE_ID = "afyastat";
 	
 	public static final String MEDIC_MOBILE_LAST_PATIENT_CONTACT_ENTRY = "medic.lastSavedPatientContact";
@@ -53,46 +49,4 @@ public class AfyaStatMetadataUtil {
 		
 		public static final String CHT_RECORD_UUID = "c6552b22-f191-4557-a432-1f4df872d473";
 	}
-	
-	public PatientIdentifierType save() {
-		
-		PatientIdentifierType existingIdentifierType = patientService
-		        .getPatientIdentifierTypeByUuid(_PatientIdentifierType.CHT_RECORD_UUID);
-		
-		if (existingIdentifierType == null) {
-			log.error("Existing PatientIdentifierType");
-			PatientIdentifierType identifierType = new PatientIdentifierType();
-			identifierType.setName("CHT Identifier");
-			identifierType.setUuid(_PatientIdentifierType.CHT_RECORD_UUID);
-			identifierType.setRequired(false);
-			identifierType.setDescription("CHT Record Reference UUID");
-			identifierType.setLocationBehavior(PatientIdentifierType.LocationBehavior.NOT_USED);
-			log.error("Existing PatientIdentifierType is null");
-			return patientService.savePatientIdentifierType(identifierType);
-		}
-		
-		log.error("Existing PatientIdentifierType");
-		return existingIdentifierType;
-		
-		//return patientService.savePatientIdentifierType(identifierType);
-	}
-	/**
-	 * @Override public void install() throws Exception {
-	 *           install(globalProperty(MEDIC_MOBILE_LAST_PATIENT_CONTACT_ENTRY,
-	 *           "Id for the last case contact entry for CHT", null));
-	 *           install(globalProperty(MEDIC_MOBILE_LAST_PATIENT_ENTRY,
-	 *           "Medic last patient entry ID", null));
-	 *           install(globalProperty(MEDIC_MOBILE_SERVER_URL, "Server URL for Medic Mobile CHT",
-	 *           null)); install(globalProperty(MEDIC_MOBILE_USER, "Medic Mobile CHT user", null));
-	 *           install(globalProperty(MEDIC_MOBILE_PWD, "Medic Mobile CHT pwd", null));
-	 *           install(globalProperty(AFYASTAT_CONTACT_LIST_LAST_FETCH_TIMESTAMP,
-	 *           "The last time contact list was fetched", null));
-	 *           install(globalProperty(AFYASTAT_LINKAGE_LIST_LAST_FETCH_TIMESTAMP,
-	 *           "The last time linkage list was fetched", null));
-	 *           install(patientIdentifierType("CHT Record Reference UUID",
-	 *           "Record reference UUID from CHT", null, null, null,
-	 *           PatientIdentifierType.LocationBehavior.NOT_USED, false,
-	 *           _PatientIdentifierType.CHT_RECORD_UUID)); }
-	 */
-	
 }

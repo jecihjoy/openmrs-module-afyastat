@@ -14,7 +14,7 @@
 package org.openmrs.module.afyastat.api.db.hibernate;
 
 import org.hibernate.Criteria;
-import org.hibernate.SessionFactory;
+import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.afyastat.api.db.SingleClassInfoDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +27,7 @@ import java.util.List;
 public class HibernateSingleClassInfoDao<T> implements SingleClassInfoDao<T> {
 	
 	@Autowired
-	protected SessionFactory sessionFactory;
+	protected DbSessionFactory sessionFactory;
 	
 	protected Class<T> mappedClass;
 	
@@ -49,7 +49,7 @@ public class HibernateSingleClassInfoDao<T> implements SingleClassInfoDao<T> {
 		this.mappedClass = mappedClass;
 	}
 	
-	public void setSessionFactory(SessionFactory sessionFactory) {
+	public void setSessionFactory(DbSessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 	

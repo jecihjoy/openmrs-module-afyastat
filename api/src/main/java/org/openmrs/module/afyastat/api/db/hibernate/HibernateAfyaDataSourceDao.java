@@ -32,12 +32,12 @@ public class HibernateAfyaDataSourceDao extends HibernateSingleClassInfoDao<Afya
 	}
 	
 	@Autowired
-	protected SessionFactory sessionFactory;
+	protected DbSessionFactory sessionFactory;
 	
 	/**
 	 * @return the sessionFactory
 	 */
-	protected SessionFactory getSessionFactory() {
+	protected DbSessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 	
