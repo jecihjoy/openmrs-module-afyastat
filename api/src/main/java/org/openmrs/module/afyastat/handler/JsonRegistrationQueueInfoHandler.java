@@ -68,27 +68,27 @@ public class JsonRegistrationQueueInfoHandler implements QueueInfoHandler {
 	
 	private StreamProcessorException queueProcessorException;
 	
-	public static final String NEXT_OF_KIN_ADDRESS = "72a75bec-1359-11df-a1f1-0026b9348838";
+	public static final String NEXT_OF_KIN_ADDRESS = "fc0bdd0c-bff4-4a17-b96e-a9270036d71e";
 	
-	public static final String NEXT_OF_KIN_CONTACT = "72a75bec-1359-11df-a1f1-0026b9348838";
+	public static final String NEXT_OF_KIN_CONTACT = "a657a4f1-9c0f-444b-a1fd-445bb91dd12d";
 	
 	public static final String NEXT_OF_KIN_NAME = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String NEXT_OF_KIN_RELATIONSHIP = "72a75bec-1359-11df-a1f1-0026b9348838";
+	public static final String NEXT_OF_KIN_RELATIONSHIP = "b8e2b31b-6cee-4ac6-8790-c40308647c57";
 	
 	public static final String SUBCHIEF_NAME = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
 	public static final String TELEPHONE_CONTACT = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String EMAIL_ADDRESS = "72a75bec-1359-11df-a1f1-0026b9348838";
+	public static final String EMAIL_ADDRESS = "2f65dbcb-3e58-45a3-8be7-fd1dc9aa0faa";
 	
-	public static final String ALTERNATE_PHONE_CONTACT = "72a75bec-1359-11df-a1f1-0026b9348838";
+	public static final String ALTERNATE_PHONE_CONTACT = "c725f524-c14a-4468-ac19-4a0e6661c930";
 	
-	public static final String NEAREST_HEALTH_CENTER = "72a75bec-1359-11df-a1f1-0026b9348838";
+	public static final String NEAREST_HEALTH_CENTER = "254e3b6a-eeec-4714-9c5f-776cc4d30191";
 	
 	public static final String GUARDIAN_FIRST_NAME = "72a75bec-1359-11df-a1f1-0026b9348838";
 	
-	public static final String GUARDIAN_LAST_NAME = "72a75bec-1359-11df-a1f1-0026b9348838";
+	public static final String GUARDIAN_LAST_NAME = "fc0bdd0c-bff4-4a17-b96e-a9270036d71e";
 	
 	@Override
 	public void process(final AfyaStatQueueData queueData) throws StreamProcessorException {
@@ -336,8 +336,8 @@ public class JsonRegistrationQueueInfoHandler implements QueueInfoHandler {
 			if (registrationData == null) {
 				registrationData = new RegistrationInfo();
 				registrationData.setTemporaryUuid(temporaryUuid);
-				Context.getPatientService().savePatient(unsavedPatient);
-				String assignedUuid = unsavedPatient.getUuid();
+				Patient patient = Context.getPatientService().savePatient(unsavedPatient);
+				String assignedUuid = patient.getUuid();
 				registrationData.setAssignedUuid(assignedUuid);
 				registrationDataService.saveRegistrationData(registrationData);
 			}
@@ -390,7 +390,7 @@ public class JsonRegistrationQueueInfoHandler implements QueueInfoHandler {
 		setAsAttribute("Mother's Name", "");
 		
 		String phoneNumber = JsonFormatUtils.readAsString(payload, "$['patient']['patient.phone_number']");
-		setAsAttribute("Telephone contact", phoneNumber);
+		setAsAttribute("Contact Phone Number", phoneNumber);
 		
 		//        String phoneNumber = JsonUtils.readAsString(payload, "$['patient']['patient.phone_number']");
 		//        setAsAttributeByUUID(TELEPHONE_CONTACT,phoneNumber);
@@ -504,8 +504,7 @@ public class JsonRegistrationQueueInfoHandler implements QueueInfoHandler {
 			locationId = Integer.parseInt(locationIdString);
 			location = Context.getLocationService().getLocation(locationId);
 		}
-
-
+		
 		/**
 		 * TODO Fix ID gen returns null identifier
 		 */

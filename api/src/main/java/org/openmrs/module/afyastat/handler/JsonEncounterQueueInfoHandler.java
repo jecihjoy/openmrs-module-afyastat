@@ -182,7 +182,11 @@ public class JsonEncounterQueueInfoHandler implements QueueInfoHandler {
 					continue;
 				
 				int conceptId = Integer.parseInt(conceptElements[0]);
-				Concept concept = Context.getConceptService().getConcept(conceptId);
+				Concept concept = Context.getConceptService().getConceptByMapping(conceptElements[0], "MCL/CIEL");
+				if (concept == null) {
+					concept = Context.getConceptService().getConceptByMapping(conceptElements[0], "MCL/CIEL");
+				}
+				
 				if (concept == null) {
 					queueProcessorException.addException(new Exception("Unable to find Concept for Question with ID: "
 					        + conceptId));
@@ -254,6 +258,9 @@ public class JsonEncounterQueueInfoHandler implements QueueInfoHandler {
 				int valueCodedId = Integer.parseInt(valueCodedElements[0]);
 				Concept valueCoded = Context.getConceptService().getConcept(valueCodedId);
 				if (valueCoded == null) {
+					valueCoded = Context.getConceptService().getConceptByMapping(valueCodedElements[0], "MCL/CIEL");
+				}
+				if (valueCoded == null) {
 					queueProcessorException.addException(new Exception("Unable to find concept for value coded with id: "
 					        + valueCodedId));
 				} else {
@@ -308,9 +315,13 @@ public class JsonEncounterQueueInfoHandler implements QueueInfoHandler {
 		if (form == null) {
 			log.info("Unable to find form using the uuid: " + formUuid + ". Setting the form field to null!");
 			String encounterTypeString = JsonFormatUtils.readAsString(encounterPayload,
-			    "$['encounter']['encounter.type_id']");
+			    "$['encounter']['encounter.setup_config_uuid']");
 			int encounterTypeId = NumberUtils.toInt(encounterTypeString, -999);
-			EncounterType encounterType = Context.getEncounterService().getEncounterType(encounterTypeId);
+			log.error("Encounter type " + encounterTypeId);
+			log.error("Encounter type "
+			        + JsonFormatUtils.readAsString(encounterPayload, "$['encounter']['encounter.type_id']"));
+			
+			EncounterType encounterType = Context.getEncounterService().getEncounterTypeByUuid(encounterTypeString);
 			if (encounterType == null) {
 				queueProcessorException.addException(new Exception("Unable to find encounter type using the id: "
 				        + encounterTypeString));
@@ -319,6 +330,7 @@ public class JsonEncounterQueueInfoHandler implements QueueInfoHandler {
 			}
 			
 		} else {
+			log.error("Encounter type " + form.getEncounterType().getUuid());
 			encounter.setForm(form);
 			encounter.setEncounterType(form.getEncounterType());
 		}
@@ -395,19 +407,19 @@ public class JsonEncounterQueueInfoHandler implements QueueInfoHandler {
 	}
 	
 	protected static void useNewVisit(Encounter encounter) {
-		String VISIT_SOURCE_FORM = "8bfab185-6947-4958-b7ab-dfafae1a3e3d";
+		String VISIT_SOURCE_FORM = "3bb41949-6596-4ff9-a54f-d3d7883a69ed";
 		Visit visit = new Visit();
 		visit.setStartDatetime(OpenmrsUtil.firstSecondOfDay(encounter.getEncounterDatetime()));
 		visit.setStopDatetime(getLastMomentOfDay(encounter.getEncounterDatetime()));
 		visit.setLocation(encounter.getLocation());
 		visit.setPatient(encounter.getPatient());
-		visit.setVisitType(Context.getVisitService().getVisitTypeByUuid("3371a4d4-f66f-4454-a86d-92c7b3da990c"));
+		visit.setVisitType(Context.getVisitService().getVisitTypeByUuid("1d697d92-a000-11ea-b1a0-d0577bb73cd4"));
 		
-		VisitAttribute sourceAttr = new VisitAttribute();
-		sourceAttr.setAttributeType(Context.getVisitService().getVisitAttributeTypeByUuid(VISIT_SOURCE_FORM));
-		sourceAttr.setOwner(visit);
-		sourceAttr.setValue(encounter.getForm());
-		visit.addAttribute(sourceAttr);
+		//		VisitAttribute sourceAttr = new VisitAttribute();
+		//		sourceAttr.setAttributeType(Context.getVisitService().getVisitAttributeTypeByUuid(VISIT_SOURCE_FORM));
+		//		sourceAttr.setOwner(visit);
+		//		sourceAttr.setValue(encounter.getForm());
+		//		visit.addAttribute(sourceAttr);
 		
 		Context.getVisitService().saveVisit(visit);
 		

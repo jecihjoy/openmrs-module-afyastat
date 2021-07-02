@@ -17,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.*;
+import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.afyastat.api.db.AfyaDataSourceDao;
 import org.openmrs.module.afyastat.model.AfyaDataSource;
 import org.springframework.beans.factory.annotation.Autowired;

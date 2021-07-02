@@ -61,7 +61,7 @@ public class MedicDataExchange {
 
 	static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
 
-	private Integer locationId = 10;//Context.getService(KenyaEmrService.class).getDefaultLocation().getLocationId();
+	private Integer locationId = 10;
 
 	private final Log log = LogFactory.getLog(MedicDataExchange.class);
 
@@ -123,7 +123,7 @@ public class MedicDataExchange {
 				String documentId = regNode.get("_id").getTextValue();
 			if (dataService.getQueueDataByUuid(documentId) != null) {
 				System.out.println("Afyastat attempted to send a duplicate record with uuid = " + documentId + ". The payload will be ignored");
-				return "Afyastat sent a duplicate registration to KenyaEMR. This has been ignored";
+				return "Afyastat sent a duplicate registration to Amrs. This has been ignored";
 			} else {
 
 				ObjectNode outputNode = processRegistrationPayload(jsonNode, resultPayload);
@@ -332,7 +332,9 @@ public class MedicDataExchange {
 		String systemId = confirmUserNameExists(creator);
 		Long longDate = jsonNode.get("reported_date") != null ? jsonNode.get("reported_date").getLongValue() : date.getTime();
 
-		encounter.put("encounter.location_id", locationId != null ? locationId.toString() : null);
+		encounter.put("encounter.location_id", jsonNode.path("parent").path("external_id") != null
+				&& jsonNode.path("parent").path("external_id").getTextValue() != null ? jsonNode
+				.path("parent").path("external_id").getTextValue() : "");
 		encounter.put("encounter.provider_id_select", providerId != null ? providerId : " ");
 		encounter.put("encounter.provider_id", providerId != null ? providerId : " ");
 		encounter.put("encounter.encounter_datetime", convertTime(longDate));
@@ -398,7 +400,9 @@ public class MedicDataExchange {
 		String providerIdentifier = checkProviderNameExists(creator);
 		String systemId = confirmUserNameExists(creator);
 		discriminator.put("discriminator", "json-encounter");
-		encounter.put("encounter.location_id", locationId != null ? locationId.toString() : null);
+		encounter.put("encounter.location_id", jsonNode.path("contact").path("parent").path("external_id") != null
+				&& jsonNode.path("contact").path("parent").path("external_id").getTextValue() != null ? jsonNode
+				.path("contact").path("parent").path("external_id").getTextValue() : "");
 		encounter.put("encounter.provider_id_select", providerIdentifier != null ? providerIdentifier : " ");
 		encounter.put("encounter.provider_id", providerIdentifier != null ? providerIdentifier : " ");
 		encounter.put("encounter.encounter_datetime", encounterDate);
@@ -510,7 +514,7 @@ public class MedicDataExchange {
 
 				String[] conceptElements = org.apache.commons.lang.StringUtils.split(entry.getKey(), "\\^");
 				int conceptId = Integer.parseInt(conceptElements[0]);
-				Concept concept = Context.getConceptService().getConcept(conceptId);
+				Concept concept = Context.getConceptService().getConceptByMapping(conceptElements[0], "MCL/CIEL");
 
 				if (concept == null) {
 					log.info("Unable to find Concept for Question with ID:: " + conceptId);
@@ -1152,7 +1156,7 @@ public class MedicDataExchange {
 		if (lastClinicalEnrolmentEncForPeers != null) {
 			for (Obs obs : lastClinicalEnrolmentEncForPeers.getObs()) {
 				if (obs.getConcept().getConceptId() == hivStatusQuestionConcept
-				        && obs.getValueCoded().getConceptId() == positiveConcept) {
+						&& obs.getValueCoded().getConceptId() == positiveConcept) {
 					hivStatus = "POSITIVE";
 				}
 

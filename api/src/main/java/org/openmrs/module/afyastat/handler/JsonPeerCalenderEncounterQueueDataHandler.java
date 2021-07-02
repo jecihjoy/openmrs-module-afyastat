@@ -204,6 +204,9 @@ public class JsonPeerCalenderEncounterQueueDataHandler implements QueueInfoHandl
 				int conceptId = Integer.parseInt(conceptElements[0]);
 				Concept concept = Context.getConceptService().getConcept(conceptId);
 				if (concept == null) {
+					concept = Context.getConceptService().getConceptByMapping(conceptElements[0], "MCL/CIEL");
+				}
+				if (concept == null) {
 					queueProcessorException.addException(new Exception("Unable to find Concept for Question with ID: "
 					        + conceptId));
 				} else {

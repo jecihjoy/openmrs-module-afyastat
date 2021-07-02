@@ -151,6 +151,9 @@ public class ObsQueueInfoHandler implements QueueInfoHandler {
 				int conceptId = Integer.parseInt(conceptElements[0]);
 				Concept concept = Context.getConceptService().getConcept(conceptId);
 				if (concept == null) {
+					concept = Context.getConceptService().getConceptByMapping(conceptElements[0], "MCL/CIEL");
+				}
+				if (concept == null) {
 					queueProcessorException.addException(new Exception("Unable to find Concept for Question with ID: "
 					        + conceptId));
 				} else {
@@ -213,6 +216,9 @@ public class ObsQueueInfoHandler implements QueueInfoHandler {
 			String[] valueCodedElements = StringUtils.split(value, "\\^");
 			int valueCodedId = Integer.parseInt(valueCodedElements[0]);
 			Concept valueCoded = Context.getConceptService().getConcept(valueCodedId);
+			if (valueCoded == null) {
+				valueCoded = Context.getConceptService().getConceptByMapping(String.valueOf(valueCodedId), "MCL/CIEL");
+			}
 			if (valueCoded == null) {
 				queueProcessorException.addException(new Exception("Unable to find concept for value coded with id: "
 				        + valueCodedId));
