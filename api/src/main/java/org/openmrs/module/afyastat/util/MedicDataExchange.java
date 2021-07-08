@@ -48,7 +48,6 @@ public class MedicDataExchange {
 
 	AfyastatService afyastatService = Context.getService(AfyastatService.class);
 	InfoService dataService = Context.getService(InfoService.class);
-//	HTSService htsService = Context.getService(HTSService.class);
 	PersonService personService = Context.getPersonService();
 
 	EncounterService encService = Context.getEncounterService();
@@ -1690,11 +1689,13 @@ public class MedicDataExchange {
 		String providerId = checkProviderNameExists(creator);
 		String systemId = confirmUserNameExists(creator);
 
-		encounter.put("encounter.location_id", locationId != null ? locationId.toString() : null);
+		encounter.put("encounter.location_id", jsonNode.path("parent").path("external_id") != null
+				&& jsonNode.path("parent").path("external_id").getTextValue() != null ? jsonNode
+				.path("parent").path("external_id").getTextValue() : "");
 		encounter.put("encounter.provider_id_select", providerId != null ? providerId : " ");
 		encounter.put("encounter.provider_id", providerId != null ? providerId : " ");
 		encounter.put("encounter.encounter_datetime", convertTime(jsonNode.get("reported_date").getLongValue()));
-		encounter.put("encounter.form_uuid", "8898c6e1-5df1-409f-b8ed-c88e6e0f24e9");
+		encounter.put("encounter.form_uuid", "dfac3ba8-1350-11df-a1f1-0026b9348838");
 		encounter.put("encounter.user_system_id", systemId);
 		encounter.put("encounter.device_time_zone", "Africa\\/Nairobi");
 		encounter.put("encounter.setup_config_uuid", "2107eab5-5b3a-4de8-9e02-9d97bce635d2");
