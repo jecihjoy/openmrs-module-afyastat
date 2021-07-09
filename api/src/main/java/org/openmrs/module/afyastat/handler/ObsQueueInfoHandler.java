@@ -36,7 +36,12 @@ import org.springframework.stereotype.Component;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Handles processing of observation data from Afyastat Adapted from openmrs-module-muzimacore This
@@ -154,7 +159,6 @@ public class ObsQueueInfoHandler implements QueueInfoHandler {
 					concept = Context.getConceptService().getConceptByMapping(conceptElements[0], "7777");
 					if (concept == null) {
 						concept = Context.getConceptService().getConceptByMapping(conceptElements[0], "kemr");
-						if (concept == null) {} else {}
 					}
 				}
 				
@@ -214,7 +218,15 @@ public class ObsQueueInfoHandler implements QueueInfoHandler {
 		}
 		// find the obs value :)
 		if (concept.getDatatype().isNumeric()) {
-			obs.setValueNumeric(Double.parseDouble(value));
+			if (concept.getConceptId() == 6151) {
+				int months = Integer.parseInt(value);
+				Calendar c = Calendar.getInstance();
+				c.setTime(new Date());
+				c.add(Calendar.MONTH, -months);
+				obs.setValueNumeric((double) c.get(Calendar.YEAR));
+			} else {
+				obs.setValueNumeric(Double.parseDouble(value));
+			}
 		} else if (concept.getDatatype().isDate() || concept.getDatatype().isTime() || concept.getDatatype().isDateTime()) {
 			obs.setValueDatetime(parseDate(value));
 		} else if (concept.getDatatype().isCoded()) {

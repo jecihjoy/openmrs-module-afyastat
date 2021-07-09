@@ -183,10 +183,10 @@ public class DemographicsUpdateQueueInfoHandler implements QueueInfoHandler {
 	private void updatePatientDemographicObs() {
 		Patient p = Context.getPatientService().getPatientByUuid(savedPatient.getUuid());
 		ConceptService cs = Context.getConceptService();
-		String occupation = JsonFormatUtils.readAsString(payload, "$['observation']['1542^OCCUPATION^99DCT']");
+		String occupation = JsonFormatUtils.readAsString(payload, "$['observation']['1972^OCCUPATION^99DCT']");
 		String civilStatus = JsonFormatUtils.readAsString(payload, "$['observation']['1054^CIVIL STATUS^99DCT']");
 		String educationLevel = JsonFormatUtils.readAsString(payload,
-		    "$['observation']['1712^HIGHEST EDUCATION LEVEL^99DCT']");
+		    "$['observation']['1605^HIGHEST EDUCATION LEVEL^99DCT']");
 		Integer occupationConAns = handleEditObsValues(occupation.replace("^", "_"));
 		Integer civilStatusConAns = handleEditObsValues(civilStatus.replace("^", "_"));
 		Integer educationLevelConAns = handleEditObsValues(educationLevel.replace("^", "_"));
@@ -195,7 +195,7 @@ public class DemographicsUpdateQueueInfoHandler implements QueueInfoHandler {
 			Obs occupationObs = new Obs();
 			occupationObs.setPerson(p);
 			occupationObs.setObsDatetime(new Date());
-			occupationObs.setConcept(cs.getConcept(1542)); // occupation concept
+			occupationObs.setConcept(cs.getConcept(1972)); // occupation concept
 			occupationObs.setValueCoded(cs.getConcept(occupationConAns));
 			Context.getObsService().saveObs(occupationObs, null);
 		}
@@ -213,7 +213,7 @@ public class DemographicsUpdateQueueInfoHandler implements QueueInfoHandler {
 			Obs eduLevelObs = new Obs();
 			eduLevelObs.setPerson(p);
 			eduLevelObs.setObsDatetime(new Date());
-			eduLevelObs.setConcept(cs.getConcept(1712)); // education level concept
+			eduLevelObs.setConcept(cs.getConcept(1605)); // education level concept
 			eduLevelObs.setValueCoded(cs.getConcept(educationLevelConAns));
 			Context.getObsService().saveObs(eduLevelObs, null);
 		}
@@ -724,7 +724,7 @@ public class DemographicsUpdateQueueInfoHandler implements QueueInfoHandler {
 		String phoneNumber = JsonFormatUtils.readAsString(payload,
 		    "$['demographicsupdate']['demographicsupdate.phone_number']");
 		if (StringUtils.isNotEmpty(phoneNumber))
-			attributes.add(createPersonAttribute("Telephone contact", null, phoneNumber));
+			attributes.add(createPersonAttribute("Contact Phone Number", null, phoneNumber));
 		
 		String nearestHealthFacility = JsonFormatUtils.readAsString(payload,
 		    "$['demographicsupdate']['demographicsupdate.nearest_health_center']");

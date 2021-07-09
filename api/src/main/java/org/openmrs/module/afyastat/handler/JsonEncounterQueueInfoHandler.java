@@ -189,7 +189,6 @@ public class JsonEncounterQueueInfoHandler implements QueueInfoHandler {
 					concept = Context.getConceptService().getConceptByMapping(conceptElements[0], "7777");
 					if (concept == null) {
 						concept = Context.getConceptService().getConceptByMapping(conceptElements[0], "kemr");
-						if (concept == null) {} else {}
 					}
 				}
 				if (concept == null) {
@@ -254,7 +253,15 @@ public class JsonEncounterQueueInfoHandler implements QueueInfoHandler {
 		if (org.apache.commons.lang3.StringUtils.isNotBlank(value)) {
 			// find the obs value :)
 			if (concept.getDatatype().isNumeric()) {
-				obs.setValueNumeric(Double.parseDouble(value));
+				if (concept.getConceptId() == 6151) {
+					int months = Integer.parseInt(value);
+					Calendar c = Calendar.getInstance();
+					c.setTime(new Date());
+					c.add(Calendar.MONTH, -months);
+					obs.setValueNumeric((double) c.get(Calendar.YEAR));
+				} else {
+					obs.setValueNumeric(Double.parseDouble(value));
+				}
 			} else if (concept.getDatatype().isDate() || concept.getDatatype().isTime()
 			        || concept.getDatatype().isDateTime()) {
 				obs.setValueDatetime(parseDate(value));

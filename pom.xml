@@ -29,7 +29,7 @@
 	</modules>
 
 	<properties>
-		<openMRSVersion>2.1.2</openMRSVersion>
+		<openMRSVersion>2.4.0</openMRSVersion>
 		<!-- Module dependencies -->
 		<calculationVersion>1.2</calculationVersion>
 		<htmlformentryVersion>2.3</htmlformentryVersion>

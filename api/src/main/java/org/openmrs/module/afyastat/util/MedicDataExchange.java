@@ -320,8 +320,8 @@ public class MedicDataExchange {
 		patientNode.put("patient.otheridentifier", getIdentifierTypes(jsonNode));
 
 		obs.put("1054^CIVIL STATUS^99DCT", jsonNode.get("patient_marital_status") != null && !jsonNode.get("patient_marital_status").getTextValue().equalsIgnoreCase("") ? jsonNode.get("patient_marital_status").getTextValue().replace("_", "^").substring(1) : "");
-		obs.put("1542^OCCUPATION^99DCT", jsonNode.get("patient_occupation") != null && !jsonNode.get("patient_occupation").getTextValue().equalsIgnoreCase("") ? jsonNode.get("patient_occupation").getTextValue().replace("_", "^").substring(1) : "");
-		obs.put("1712^HIGHEST EDUCATION LEVEL^99DCT", jsonNode.get("patient_education_level") != null && !jsonNode.get("patient_education_level").getTextValue().equalsIgnoreCase("") ? jsonNode.get("patient_education_level").getTextValue().replace("_", "^").substring(1) : "");
+		obs.put("1972^OCCUPATION^99DCT", jsonNode.get("patient_occupation") != null && !jsonNode.get("patient_occupation").getTextValue().equalsIgnoreCase("") ? jsonNode.get("patient_occupation").getTextValue().replace("_", "^").substring(1) : "");
+		obs.put("1605^HIGHEST EDUCATION LEVEL^99DCT", jsonNode.get("patient_education_level") != null && !jsonNode.get("patient_education_level").getTextValue().equalsIgnoreCase("") ? jsonNode.get("patient_education_level").getTextValue().replace("_", "^").substring(1) : "");
 
 		tmp.put("tmp.birthdate_type", "age");
 		tmp.put("tmp.age_in_years", jsonNode.get("patient_ageYears") != null ? jsonNode.get("patient_ageYears").getTextValue() : "");
@@ -1670,12 +1670,12 @@ public class MedicDataExchange {
 		            && !jsonNode.get("patient_marital_status").getTextValue().equalsIgnoreCase("") ? jsonNode
 		            .get("patient_marital_status").getTextValue().replace("_", "^").substring(1) : "");
 		obs.put(
-		    "1542^OCCUPATION^99DCT",
+		    "1972^OCCUPATION^99DCT",
 		    jsonNode.get("patient_occupation") != null
 		            && !jsonNode.get("patient_occupation").getTextValue().equalsIgnoreCase("") ? jsonNode
 		            .get("patient_occupation").getTextValue().replace("_", "^").substring(1) : "");
 		obs.put(
-		    "1712^HIGHEST EDUCATION LEVEL^99DCT",
+		    "1605^HIGHEST EDUCATION LEVEL^99DCT",
 		    jsonNode.get("patient_education_level") != null
 		            && !jsonNode.get("patient_education_level").getTextValue().equalsIgnoreCase("") ? jsonNode
 		            .get("patient_education_level").getTextValue().replace("_", "^").substring(1) : "");
@@ -1698,7 +1698,8 @@ public class MedicDataExchange {
 		encounter.put("encounter.form_uuid", "dfac3ba8-1350-11df-a1f1-0026b9348838");
 		encounter.put("encounter.user_system_id", systemId);
 		encounter.put("encounter.device_time_zone", "Africa\\/Nairobi");
-		encounter.put("encounter.setup_config_uuid", "2107eab5-5b3a-4de8-9e02-9d97bce635d2");
+		encounter.put("encounter.setup_config_uuid", "df555734-1350-11df-a1f1-0026b9348838");
+
 
 		demographicUpdateWrapper.put("patient", patientNode);
 		demographicUpdateWrapper.put("demographicsupdate", demographicsUpdateNode);

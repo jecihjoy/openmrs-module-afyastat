@@ -88,6 +88,11 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpmime</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.mashape.unirest</groupId>
+			<artifactId>unirest-java</artifactId>
+			<version>1.4.9</version>
+		</dependency>
 <!--		<dependency>-->
 <!--			<groupId>net.sf.saxon</groupId>-->
 <!--			<artifactId>saxon</artifactId>-->

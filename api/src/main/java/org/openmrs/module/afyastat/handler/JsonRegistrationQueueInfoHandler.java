@@ -14,6 +14,9 @@
 package org.openmrs.module.afyastat.handler;
 
 import com.jayway.jsonpath.InvalidPathException;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
@@ -36,7 +39,7 @@ import org.openmrs.module.afyastat.model.RegistrationInfo;
 import org.openmrs.module.afyastat.model.handler.QueueInfoHandler;
 import org.openmrs.module.afyastat.utils.JsonFormatUtils;
 import org.openmrs.module.afyastat.utils.PatientLookUpUtils;
-import org.openmrs.module.idgen.service.IdentifierSourceService;
+import org.openmrs.util.HttpClient;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -508,10 +511,19 @@ public class JsonRegistrationQueueInfoHandler implements QueueInfoHandler {
 		/**
 		 * TODO Fix ID gen returns null identifier
 		 */
-		String generated = Context.getService(IdentifierSourceService.class).generateIdentifier(openmrsIDType,
-		    "Registration");
-		log.error("ID GEN VALUE " + generated);
-		PatientIdentifier identifier = new PatientIdentifier(generated, openmrsIDType, location);
+		PatientIdentifier identifier = null;
+		String userIdString = JsonFormatUtils.readAsString(payload, "$['encounter']['encounter.provider_id']");
+		Unirest.setTimeouts(0, 0);
+		try {
+			HttpResponse<String> response = Unirest.post("http://10.50.80.115:8016/generateidentifier")
+			        .header("Content-Type", "application/json").body("{\n    \"user\":1\n}").asString();
+			String generated2 = response.getBody();
+			String a = JsonFormatUtils.readAsString(generated2, "$['identifier']");
+			identifier = new PatientIdentifier(a, openmrsIDType, location);
+		}
+		catch (UnirestException e) {
+			e.printStackTrace();
+		}
 		return identifier;
 	}
 	
@@ -535,12 +547,12 @@ public class JsonRegistrationQueueInfoHandler implements QueueInfoHandler {
 				Integer valueCoded = null;
 				while (iterator.hasNext()) {
 					Map.Entry<String, JsonNode> entry = iterator.next();
-					if (entry.getKey().equalsIgnoreCase("1712^HIGHEST EDUCATION LEVEL^99DCT")
+					if (entry.getKey().equalsIgnoreCase("1605^HIGHEST EDUCATION LEVEL^99DCT")
 					        && !entry.getValue().getTextValue().equalsIgnoreCase("")) {
 						valueCoded = handleObsValues(entry.getValue().getTextValue().replace("^", "_"));
 						if (valueCoded != null && p != null) {
 							Obs o = new Obs();
-							o.setConcept(cs.getConcept(1712));
+							o.setConcept(cs.getConcept(1605));
 							o.setDateCreated(queueData.getDateCreated());
 							o.setCreator(queueData.getCreator());
 							o.setObsDatetime(queueData.getDateCreated());
@@ -551,12 +563,12 @@ public class JsonRegistrationQueueInfoHandler implements QueueInfoHandler {
 						}
 					}
 					
-					if (entry.getKey().equalsIgnoreCase("1542^OCCUPATION^99DCT")
+					if (entry.getKey().equalsIgnoreCase("1972^OCCUPATION^99DCT")
 					        && !entry.getValue().getTextValue().equalsIgnoreCase("")) {
 						valueCoded = handleObsValues(entry.getValue().getTextValue().replace("^", "_"));
 						if (valueCoded != null && p != null) {
 							Obs o = new Obs();
-							o.setConcept(cs.getConcept(1542));
+							o.setConcept(cs.getConcept(1972));
 							o.setDateCreated(queueData.getDateCreated());
 							o.setCreator(queueData.getCreator());
 							o.setObsDatetime(queueData.getDateCreated());
